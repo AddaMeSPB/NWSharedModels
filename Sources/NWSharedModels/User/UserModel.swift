@@ -159,5 +159,4 @@ extension UserModel {
         phoneNumber = input.phoneNumber
     }
 }
-
 #endif
