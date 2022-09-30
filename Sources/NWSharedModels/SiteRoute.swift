@@ -14,7 +14,7 @@ public enum WordsRoute: Equatable {
 
 public let wordsRouter = OneOf {
     Route(.case(WordsRoute.list)) {
-        Path { "api/words" }
+        Path { "api"; "words" }
         Parse(.memberwise(Language.init)) {
             Query {
                 Field("from", .string, default: "")

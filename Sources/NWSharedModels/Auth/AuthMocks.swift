@@ -1,3 +1,5 @@
+import BSON
+
 extension VerifySMSInOutput {
     static public var draff: VerifySMSInOutput = .init(
         phoneNumber: "+79218821217",
@@ -8,7 +10,7 @@ extension VerifySMSInOutput {
 }
 
 extension LoginResponseP {
-    static public var draff: LoginResponseP = .init(status: "online", user: .init(fullName: "Saroar", email: "", role: .superAdmin, language: .english), access: .draff)
+    static public var draff: LoginResponseP = .init(status: "online", user: .init(id: ObjectId(),fullName: "Saroar", email: "", role: .superAdmin, language: .english), access: .draff)
 }
 
 extension RefreshTokenResponse {

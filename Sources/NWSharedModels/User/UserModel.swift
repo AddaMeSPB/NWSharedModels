@@ -84,7 +84,7 @@ extension UserModel {
 extension UserModel {
 	public func mapGet() -> UserGetObject {
         return .init(
-            id: id,
+            id: id ?? ObjectId(),
             fullName: fullName,
             phoneNumber: phoneNumber,
             email: email,
@@ -139,7 +139,24 @@ extension UserModel {
 
 extension UserGetObject: Content {
     public init(from user: UserModel) {
-        self.init(id: user.id, fullName: user.fullName, phoneNumber: user.phoneNumber, email: user.email, role: user.role, language: user.language)
+        self.init(
+            id: user.id ?? ObjectId(),
+            fullName: user.fullName,
+            phoneNumber: user.phoneNumber,
+            email: user.email,
+            role: user.role,
+            language: user.language
+        )
+    }
+}
+
+extension UserModel {
+    public func update(_ input: UserGetObject) async throws {
+        fullName = input.fullName
+        language = input.language
+        role = input.role
+        email = input.email
+        phoneNumber = input.phoneNumber
     }
 }
 #endif

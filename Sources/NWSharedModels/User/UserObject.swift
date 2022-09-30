@@ -28,15 +28,15 @@ public struct UserCreateObject: Codable {
 
 public struct UserGetObject: Codable {
 
-    public let id: ObjectId?
-    public let fullName: String
-    public let phoneNumber: String?
-    public let email: String?
-    public let role: UserRole
-    public let language: UserLanguage
+    public var id: ObjectId
+    public var fullName: String
+    public var phoneNumber: String?
+    public var email: String?
+    public var role: UserRole
+    public var language: UserLanguage
 
     public init(
-        id: ObjectId? = nil,
+        id: ObjectId,
         fullName: String,
         phoneNumber: String? = nil,
         email: String? = nil,
@@ -52,7 +52,13 @@ public struct UserGetObject: Codable {
     }
 }
 
-extension UserGetObject: Equatable {}
+extension UserGetObject: Equatable {
+    public static func ==(lhs: Self, rhs: Self) -> Bool {
+        return lhs.id == rhs.id && lhs.role == rhs.role
+        && lhs.language == rhs.language && lhs.fullName == rhs.fullName
+        && lhs.phoneNumber == rhs.phoneNumber
+    }
+}
 
 public struct UserGetPublicObject: Codable {
 
