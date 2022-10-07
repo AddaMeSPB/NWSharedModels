@@ -6,18 +6,20 @@ import PackageDescription
 let package = Package(
     name: "NWSharedModels",
     platforms: [
-        .iOS(.v13),
+        .iOS(.v14),
         .macOS(.v12)
     ],
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
+        // Products define the executables and libraries a package produces,
+        // and make them visible to other packages.
         .library(
             name: "NWSharedModels",
-            targets: ["NWSharedModels"]),
+            targets: ["NWSharedModels"]
+        ),
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.62.1"),
-        .package(url: "https://github.com/vapor/fluent.git", from: "4.4.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.65.2"),
+        .package(url: "https://github.com/vapor/fluent.git", from: "4.5.0"),
         .package(url: "https://github.com/vapor/fluent-mongo-driver.git", from: "1.1.2"),
         .package(url: "https://github.com/vapor/jwt.git", from: "4.2.1"),
 
@@ -27,8 +29,10 @@ let package = Package(
         .package(url: "https://github.com/OpenKitten/BSON.git", from: "7.0.0")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
+        // Targets are the basic building blocks of a package.
+        // A target can define a module or a test suite.
+        // Targets can depend on other targets in this package,
+        // and on products in packages this package depends on.
         .target(
             name: "NWSharedModels",
             dependencies: [
@@ -62,7 +66,7 @@ let package = Package(
                 .product(
                     name: "URLRouting",
                     package: "swift-url-routing",
-                    condition: .when(platforms: [.iOS])
+                    condition: .when(platforms: [.iOS, .macOS])
                 ),
 
                 .product(
