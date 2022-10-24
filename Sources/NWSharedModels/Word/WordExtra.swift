@@ -317,7 +317,18 @@ extension Word: Hashable {
 }
 
 extension Word {
-    public static let demo: Self = .init(id: "", englishWord: "", englishDefinition: "")
+    public static let demo: Self = .init(
+        id: UUID().uuidString,
+        englishWord: "Apple",
+        englishDefinition: """
+        'An apple a day keeps the doctor away' is a common English-language proverb that appeared in the 19th century, advocating for the consumption of apples, and by extension, 'if one eats healthy foods, one will remain in good health and will not need to see the doctor often.'
+        """,
+        banglaWord: "আপেল",
+        banglaDefinition: """
+        'একটি আপেল প্রতিদিন ডাক্তারকে দূরে রাখে' একটি সাধারণ ইংরেজি ভাষার প্রবাদ যা 19 শতকে আবির্ভূত হয়েছিল, আপেল খাওয়ার পক্ষে পরামর্শ দিয়েছিল, এবং বর্ধিতভাবে, 'যদি কেউ স্বাস্থ্যকর খাবার খায়, তবে একজন সুস্থ থাকবে এবং সুস্থ থাকবে। প্রায়ই ডাক্তার দেখাতে হবে না।'
+        """
+
+    )
 }
 
 public struct DayWords: Codable, Equatable, Identifiable {

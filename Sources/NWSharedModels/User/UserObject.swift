@@ -83,5 +83,9 @@ public struct UserGetPublicObject: Codable {
 extension UserGetPublicObject: Equatable {}
 
 extension UserGetPublicObject {
-    public static let demo: Self = .init(fullName: "Ami", role: .banglaAdmin, language: .english)
+    public static let demo: Self = .init(fullName: "Demo", role: .banglaAdmin, language: .english)
+}
+
+extension UserGetObject {
+    public static let demo: Self = .init(id: ObjectId(), fullName: "Demo", role: .banglaAdmin, language: .english)
 }
