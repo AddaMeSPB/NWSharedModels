@@ -2,11 +2,11 @@
 import BSON
 
 public enum UserRole: String, Codable, CaseIterable {
-    case basic, superAdmin, englishAdmin, russianAdmin, banglaAdmin
+    case basic, superAdmin, englishAdmin, russianAdmin, banglaAdmin, spanishAdmin
 }
 
 public enum UserLanguage: String, Codable, CaseIterable {
-    case russian, english, bangla
+    case russian, english, bangla, spanish
 }
 
 public struct UserRoleAndLanguage: Encodable {

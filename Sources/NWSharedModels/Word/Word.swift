@@ -19,12 +19,27 @@ public final class WordModel: Model, Content, PropertyNames {
     public init(
 		id: ObjectId? = nil,
         icon: String? = nil,
-		englishWord: String, englishDefinition: String,
-		englishImageLink: String? = nil, englishVideoLink: String? = nil,
-		russianWord: String? = nil, russianDefinition: String? = nil,
-		russianImageLink: String? = nil, russianVideoLink: String? = nil,
-		banglaWord: String? = nil, banglaDefinition: String? = nil,
-		banglaImageLink: String? = nil, banglaVideoLink: String? = nil,
+
+		englishWord: String,
+        englishDefinition: String,
+		englishImageLink: String? = nil,
+        englishVideoLink: String? = nil,
+
+		russianWord: String? = nil,
+        russianDefinition: String? = nil,
+		russianImageLink: String? = nil,
+        russianVideoLink: String? = nil,
+
+		banglaWord: String? = nil,
+        banglaDefinition: String? = nil,
+		banglaImageLink: String? = nil,
+        banglaVideoLink: String? = nil,
+
+        spanishWord: String? = nil,
+        spanishDefinition: String? = nil,
+        spanishImageLink: String? = nil,
+        spanishVideoLink: String? = nil,
+
 		isReadFromNotification: Bool = false, isReadFromView: Bool = false,
 		level: WordLevel = .beginner, userId: ObjectId
 	) {
@@ -45,6 +60,11 @@ public final class WordModel: Model, Content, PropertyNames {
 		self.banglaImageLink = banglaImageLink
 		self.banglaVideoLink = banglaVideoLink
 
+        self.spanishWord = spanishWord
+        self.spanishDefinition = spanishDefinition
+        self.spanishImageLink = spanishImageLink
+        self.spanishVideoLink = spanishVideoLink
+
 		self.isReadFromNotification = isReadFromNotification
 		self.isReadFromView = isReadFromView
 		self.level = level
@@ -52,6 +72,7 @@ public final class WordModel: Model, Content, PropertyNames {
 		$user.id = userId
 	}
 
+    // @ID(key: "id") public var id: ObjectId?
 	@ID(custom: "id") public var id: ObjectId?
 
     @OptionalField(key: "icon") public var icon: String?
@@ -70,6 +91,11 @@ public final class WordModel: Model, Content, PropertyNames {
 	@OptionalField(key: "banglaImageLink") public var banglaImageLink: String?
 	@OptionalField(key: "banglaVideoLink") public var banglaVideoLink: String?
 
+    @OptionalField(key: "spanishWord") public var spanishWord: String?
+    @OptionalField(key: "spanishDefinition") public var spanishDefinition: String?
+    @OptionalField(key: "spanishImageLink") public var spanishImageLink: String?
+    @OptionalField(key: "spanishVideoLink") public var spanishVideoLink: String?
+
 	@Field(key: "isReadFromNotification") public var isReadFromNotification: Bool
 	@Field(key: "isReadFromView") public var isReadFromView: Bool
 	@Field(key: "level") public var level: WordLevel
@@ -84,12 +110,29 @@ extension WordModel {
 
     public func mapGet() -> WordGetObject {
 		.init(
-            _id: id!, icon: icon, englishWord: englishWord, englishDefinition: englishDefinition,
-			englishImageLink: englishImageLink, englishVideoLink: englishVideoLink,
-			russianWord: russianWord, russianDefinition: russianDefinition,
-			russianImageLink: russianImageLink, russianVideoLink: russianVideoLink,
-			banglaWord: banglaWord, banglaDefinition: banglaDefinition,
-			banglaImageLink: banglaImageLink, banglaVideoLink: banglaVideoLink,
+            _id: id!,
+            icon: icon,
+
+            englishWord: englishWord,
+            englishDefinition: englishDefinition,
+			englishImageLink: englishImageLink,
+            englishVideoLink: englishVideoLink,
+
+			russianWord: russianWord,
+            russianDefinition: russianDefinition,
+			russianImageLink: russianImageLink,
+            russianVideoLink: russianVideoLink,
+
+			banglaWord: banglaWord,
+            banglaDefinition: banglaDefinition,
+			banglaImageLink: banglaImageLink,
+            banglaVideoLink: banglaVideoLink,
+
+            spanishWord: spanishWord,
+            spanishDefinition: spanishDefinition,
+            spanishImageLink: spanishImageLink,
+            spanishVideoLink: spanishVideoLink,
+
 			isReadFromNotification: isReadFromNotification,
             isReadFromView: isReadFromView, user: user.mapGetPublic(), level: level,
 			createdAt: createdAt, updatedAt: updatedAt
@@ -112,6 +155,11 @@ extension WordModel {
 		banglaDefinition = input.banglaDefinition
 		banglaImageLink = input.banglaImageLink
 		banglaVideoLink = input.banglaVideoLink
+
+        spanishWord = input.spanishWord
+        spanishDefinition = input.spanishDefinition
+        spanishImageLink = input.spanishImageLink
+        spanishVideoLink = input.spanishVideoLink
 
 		isReadFromNotification = input.isReadFromNotification
 		isReadFromView = input.isReadFromView

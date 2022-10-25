@@ -2,7 +2,7 @@ import BSON
 import Foundation
 
 public enum LanguageList: String, Codable, Equatable {
-    case bangla, english, russian
+    case bangla, english, russian, spanish
 }
 
 public struct Language: Codable {
@@ -22,12 +22,26 @@ extension WordGetObject {
         return "\(icon ?? "") " + englishWord
     }
 
-    public var banglaWordTitle: String {
-        return "\(icon ?? "")\(banglaWord ?? "")"
+    public func banglaWordTitle() -> String? {
+        if let wordb = banglaWord {
+            return "\(icon ?? "")\(wordb)"
+        }
+        return nil
     }
 
-    public var russianWordTitle: String {
-        return "\(icon ?? "")\(russianWord ?? "")"
+    public func russianWordTitle() -> String? {
+        if let wordr = russianWord {
+            return "\(icon ?? "")" + wordr
+        }
+        return nil
+    }
+
+    public func spanishWordTitle() -> String? {
+        if let words = spanishWord {
+            return "\(icon ?? "")" + words
+        } else {
+            return nil
+        }
     }
 }
 
@@ -57,6 +71,11 @@ public struct WordGetObjectWithUser: Codable {
      public let banglaImageLink: String?
      public let banglaVideoLink: String?
 
+    public var spanishWord: String?
+    public var spanishDefinition: String?
+    public var spanishImageLink: String?
+    public var spanishVideoLink: String?
+
      public let isReadFromNotification: Bool
      public let isReadFromView: Bool
 
@@ -85,6 +104,11 @@ public struct WordGetObject: Codable {
     public let banglaImageLink: String?
     public let banglaVideoLink: String?
 
+    public var spanishWord: String?
+    public var spanishDefinition: String?
+    public var spanishImageLink: String?
+    public var spanishVideoLink: String?
+
     public let isReadFromNotification: Bool
     public let isReadFromView: Bool
     public let user: UserGetPublicObject
@@ -112,6 +136,11 @@ public struct WordCreateObject: Codable {
     public var banglaImageLink: String? = nil
     public var banglaVideoLink: String? = nil
 
+    public var spanishWord: String? = nil
+    public var spanishDefinition: String? = nil
+    public var spanishImageLink: String? = nil
+    public var spanishVideoLink: String? = nil
+
     public var isReadFromNotification: Bool = false
     public var isReadFromView: Bool = false
     public var userId: ObjectId
@@ -135,6 +164,11 @@ public struct WordUpdateObject: Codable {
     public var banglaDefinition: String? = nil
     public var banglaImageLink: String? = nil
     public var banglaVideoLink: String? = nil
+
+    public var spanishWord: String? = nil
+    public var spanishDefinition: String? = nil
+    public var spanishImageLink: String? = nil
+    public var spanishVideoLink: String? = nil
 
     public var isReadFromNotification: Bool = false
     public var isReadFromView: Bool = false
@@ -174,6 +208,14 @@ extension Word {
         return banglaWord
     }
 
+    public var spanishTitle: String? {
+        if let icon = icon, let spanishWord = spanishWord {
+            return icon + " " + spanishWord
+        }
+
+        return spanishWord
+    }
+
     public func buildNotificationTitle(from: String, to: String) -> String {
         var result = ""
 
@@ -187,6 +229,10 @@ extension Word {
 
         if from == "bangla" || to == "bangla" {
             result += banglaWord != nil ? " -> \(banglaWord ?? "")" : ""
+        }
+
+        if from == "spanish" || to == "spanish" {
+            result += spanishWord != nil ? " -> \(spanishWord ?? "")" : ""
         }
 
         return result
@@ -207,6 +253,10 @@ extension Word {
             result += banglaDefinition != nil ? " -> \(banglaDefinition ?? "")" : ""
         }
 
+        if from == "spanish" || to == "spanish" {
+            result += spanishDefinition != nil ? " -> \(spanishDefinition ?? "")" : ""
+        }
+
         return result
     }
 }
@@ -215,20 +265,30 @@ public struct Word: Equatable, Identifiable, Codable {
 
     public var id: String
     public let icon: String?
+
+    // English
     public let englishWord: String
     public let englishDefinition: String
     public let englishImageLink: String?
     public let englishVideoLink: String?
 
+    // Russian
     public var russianWord: String?
     public var russianDefinition: String?
     public var russianImageLink: String?
     public var russianVideoLink: String?
 
+    // Bangla
     public var banglaWord: String?
     public var banglaDefinition: String?
     public var banglaImageLink: String?
     public var banglaVideoLink: String?
+
+    // Spanish
+    public var spanishWord: String?
+    public var spanishDefinition: String?
+    public var spanishImageLink: String?
+    public var spanishVideoLink: String?
 
     public var isReadFromNotification: Bool
     public var isReadFromView: Bool
@@ -241,43 +301,89 @@ public struct Word: Equatable, Identifiable, Codable {
 
     enum CodingKeys: String, CodingKey {
         case id = "_id"
-        case icon, englishWord, englishDefinition, englishImageLink, englishVideoLink
+        case icon
+
+        case englishWord, englishDefinition, englishImageLink, englishVideoLink
+
         case russianWord, russianDefinition, russianImageLink, russianVideoLink
+
         case banglaWord, banglaDefinition, banglaImageLink, banglaVideoLink
+
+        case spanishWord, spanishDefinition, spanishImageLink, spanishVideoLink
+
         case isReadFromView, level, isReadFromNotification, user
+
         case createdAt, updatedAt
     }
 
     public init(
-        id: String, icon: String? = nil, englishWord: String, englishDefinition: String, englishImageLink: String? = nil, englishVideoLink: String? = nil,
-        russianWord: String? = nil, russianDefinition: String? = nil, russianImageLink: String? = nil, russianVideoLink: String? = nil,
-        banglaWord: String? = nil, banglaDefinition: String? = nil, banglaImageLink: String? = nil, banglaVideoLink: String? = nil,
+        id: String, icon: String? = nil,
+
+        // English
+        englishWord: String,
+        englishDefinition: String,
+        englishImageLink: String? = nil,
+        englishVideoLink: String? = nil,
+
+        // Russian
+        russianWord: String? = nil,
+        russianDefinition: String? = nil,
+        russianImageLink: String? = nil,
+        russianVideoLink: String? = nil,
+
+        // Bangla
+        banglaWord: String? = nil,
+        banglaDefinition: String? = nil,
+        banglaImageLink: String? = nil,
+        banglaVideoLink: String? = nil,
+
+        // Spanish
+        spanishWord: String? = nil,
+        spanishDefinition: String? = nil,
+        spanishImageLink: String? = nil,
+        spanishVideoLink: String? = nil,
+
         isReadFromNotification: Bool = false,
         isReadFromView: Bool = false,
         level: WordLevel = .beginner,
         user: UserGetPublicObject? = nil,
+
         createdAt: Date? = nil,
         updatedAt: Date? = nil
 
     ) {
         self.id = id
         self.icon = icon
+
+        // English
         self.englishWord = englishWord
         self.englishDefinition = englishDefinition
         self.englishImageLink = englishImageLink
         self.englishVideoLink = englishVideoLink
+
+        // Russian
         self.russianWord = russianWord
         self.russianDefinition = russianDefinition
         self.russianImageLink = russianImageLink
         self.russianVideoLink = russianVideoLink
+
+        // Bangla
         self.banglaWord = banglaWord
         self.banglaDefinition = banglaDefinition
         self.banglaImageLink = banglaImageLink
         self.banglaVideoLink = banglaVideoLink
+
+        // Spanish
+        self.spanishWord = spanishWord
+        self.spanishDefinition = spanishDefinition
+        self.spanishImageLink = spanishImageLink
+        self.spanishVideoLink = spanishVideoLink
+
         self.isReadFromNotification = isReadFromNotification
         self.isReadFromView = isReadFromView
         self.level = level
         self.user = user
+
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -285,22 +391,36 @@ public struct Word: Equatable, Identifiable, Codable {
     public init(_ word: Word) {
         self.id = word.id
         self.icon = word.icon
+
+        // English
         self.englishWord = word.englishWord
         self.englishDefinition = word.englishDefinition
         self.englishImageLink = word.englishImageLink
         self.englishVideoLink = word.englishVideoLink
+
+        // Russian
         self.russianWord = word.russianWord
         self.russianDefinition = word.russianDefinition
         self.russianImageLink = word.russianImageLink
         self.russianVideoLink = word.russianVideoLink
+
+        // Bangla
         self.banglaWord = word.banglaWord
         self.banglaDefinition = word.banglaDefinition
         self.banglaImageLink = word.banglaImageLink
         self.banglaVideoLink = word.banglaVideoLink
+
+        // Spanish
+        self.spanishWord = word.spanishWord
+        self.spanishDefinition = word.spanishDefinition
+        self.spanishImageLink = word.spanishImageLink
+        self.spanishVideoLink = word.spanishVideoLink
+
         self.isReadFromNotification = word.isReadFromNotification
         self.isReadFromView = word.isReadFromView
         self.level = word.level
         self.user = word.user
+        
         self.createdAt = word.createdAt
         self.updatedAt = word.updatedAt
     }
@@ -378,11 +498,11 @@ extension Word {
         ),
 
         Word(
-            id: "FC6F24EF-0DF7-4551-97AA-64E0340860D5", icon: "💨", englishWord: "Air", englishDefinition: "AirAirAirAirAirAir", englishImageLink: nil, englishVideoLink: nil,
+            id: "FC6F24EF-0DF7-4551-97AA-64E0340860D5", icon: "💨", englishWord: "Air", englishDefinition: "Air Air Air Air Air Air", englishImageLink: nil, englishVideoLink: nil,
 
-            russianWord: "Воздух", russianDefinition: "ВоздухВоздухВоздухВоздух", russianImageLink: nil, russianVideoLink: nil,
+            russianWord: "Воздух", russianDefinition: "Воздух Воздух Воздух Воздух", russianImageLink: nil, russianVideoLink: nil,
 
-            banglaWord: "এয়ার", banglaDefinition: "এয়ারএয়ারএয়ারএয়ারএয়ার", banglaImageLink: nil, banglaVideoLink: nil,
+            banglaWord: "এয়ার", banglaDefinition: "এয়ার এয়ার এয়ার এয়ার এয়ার", banglaImageLink: nil, banglaVideoLink: nil,
 
             isReadFromNotification: false, isReadFromView: false, level: .beginner, user: nil, createdAt: nil, updatedAt: nil
         )
