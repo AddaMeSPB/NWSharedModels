@@ -1,4 +1,3 @@
-import StoreKit
 
 public struct VerifyReceiptEnvelope: Codable, Equatable {
   public let verifiedProductIds: [String]

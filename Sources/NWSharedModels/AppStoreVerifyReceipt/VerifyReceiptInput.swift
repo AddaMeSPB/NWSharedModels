@@ -3,16 +3,16 @@ import Foundation
 public struct VerifyReceiptInput: Equatable, Codable {
 
     public init(
-        receiptData: String,
-        excludeOldTransactions: Bool,
+        receiptData: Data,
+        excludeOldTransactions: Bool? = nil,
         password: String
     ) {
         self.receiptData = receiptData
         self.excludeOldTransactions = excludeOldTransactions
         self.password = password
     }
-    public let receiptData: String
-    public let excludeOldTransactions: Bool
+    public let receiptData: Data
+    public let excludeOldTransactions: Bool?
     public let password: String
 
     enum CodingKeys: String, CodingKey {
@@ -25,7 +25,7 @@ public struct VerifyReceiptInput: Equatable, Codable {
 
 // MARK: - VerifyReceiptOutput
 public struct VerifyReceiptOutput: Codable {
-    public let environment: String
+    public let environment: String?
     public let receipt: Receipt
     public let latestReceiptInfo: [LatestReceiptInfo]
     public let latestReceipt: String

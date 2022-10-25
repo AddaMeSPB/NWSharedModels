@@ -2,11 +2,28 @@
 import BSON
 
 public enum UserRole: String, Codable, CaseIterable {
-    case basic, superAdmin, englishAdmin, russianAdmin, banglaAdmin
+    case basic, superAdmin, englishAdmin, russianAdmin, banglaAdmin, spanishAdmin
+
+    public var wordTitle: String {
+        switch self {
+        case .basic:
+            return "Basic User"
+        case .superAdmin:
+            return "I am SuperAdmin"
+        case .englishAdmin:
+            return "English Admin"
+        case .russianAdmin:
+            return "Russian Word"
+        case .banglaAdmin:
+            return "Bangla Word"
+        case .spanishAdmin:
+            return "Spanish Word"
+        }
+    }
 }
 
 public enum UserLanguage: String, Codable, CaseIterable {
-    case russian, english, bangla
+    case russian, english, bangla, spanish
 }
 
 public struct UserRoleAndLanguage: Encodable {
