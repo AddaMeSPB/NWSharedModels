@@ -6,6 +6,18 @@ public struct AppleVerifyReceiptResponse: Equatable, Sendable {
   public var receipt: Receipt
   public var status: Int
 
+    public init(
+        environment: AppleVerifyReceiptResponse.Environment? = nil,
+        isRetryable: Bool,
+        receipt: AppleVerifyReceiptResponse.Receipt,
+        status: Int
+    ) {
+        self.environment = environment
+        self.isRetryable = isRetryable
+        self.receipt = receipt
+        self.status = status
+    }
+
   public enum Environment: String, Codable, Equatable, Sendable {
     case sandbox = "Sandbox"
     case production = "Production"
