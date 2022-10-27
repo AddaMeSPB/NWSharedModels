@@ -1,13 +1,14 @@
 import URLRouting
+import Foundation
 
 public enum AppStoreRoute: Equatable {
-    case verifyReceipt(input: VerifyReceiptInput)
+    case verifyReceipt(Data)
 }
 
 public let appStoreRouter = OneOf {
     Route(.case(AppStoreRoute.verifyReceipt)) {
-        Path { "verify_receipt" }
         Method.post
-        Body(.json(VerifyReceiptInput.self))
+        Path { "verify-receipt" }
+        Body()
     }
 }

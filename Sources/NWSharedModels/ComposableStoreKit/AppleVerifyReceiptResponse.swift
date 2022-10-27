@@ -6,12 +6,25 @@ public struct AppleVerifyReceiptResponse: Equatable, Sendable {
   public var receipt: Receipt
   public var status: Int
 
+    public init(
+        environment: AppleVerifyReceiptResponse.Environment? = nil,
+        isRetryable: Bool,
+        receipt: AppleVerifyReceiptResponse.Receipt,
+        status: Int
+    ) {
+        self.environment = environment
+        self.isRetryable = isRetryable
+        self.receipt = receipt
+        self.status = status
+    }
+
   public enum Environment: String, Codable, Equatable, Sendable {
     case sandbox = "Sandbox"
     case production = "Production"
   }
 
-  public struct Receipt: Equatable, Sendable {
+    public struct Receipt: Equatable, Sendable {
+
     public var appItemId: Int
     public var applicationVersion: String
     public var bundleId: String
@@ -20,13 +33,47 @@ public struct AppleVerifyReceiptResponse: Equatable, Sendable {
     public var receiptCreationDate: Date
     public var requestDate: Date
 
-    public struct InApp: Equatable, Sendable {
-      public var originalPurchaseDate: Date
-      public var originalTransactionId: String
-      public var productId: String
-      public var purchaseDate: Date
-      public var quantity: Int
-      public var transactionId: String
+    public init(
+        appItemId: Int,
+        applicationVersion: String,
+        bundleId: String,
+        inApp: [AppleVerifyReceiptResponse.Receipt.InApp],
+        originalPurchaseDate: Date,
+        receiptCreationDate: Date,
+        requestDate: Date
+    ) {
+        self.appItemId = appItemId
+        self.applicationVersion = applicationVersion
+        self.bundleId = bundleId
+        self.inApp = inApp
+        self.originalPurchaseDate = originalPurchaseDate
+        self.receiptCreationDate = receiptCreationDate
+        self.requestDate = requestDate
+    }
+
+        public struct InApp: Equatable, Sendable {
+          public var originalPurchaseDate: Date
+          public var originalTransactionId: String
+          public var productId: String
+          public var purchaseDate: Date
+          public var quantity: Int
+          public var transactionId: String
+
+            public init(
+                originalPurchaseDate: Date,
+                originalTransactionId: String,
+                productId: String,
+                purchaseDate: Date,
+                quantity: Int,
+                transactionId: String
+            ) {
+                self.originalPurchaseDate = originalPurchaseDate
+                self.originalTransactionId = originalTransactionId
+                self.productId = productId
+                self.purchaseDate = purchaseDate
+                self.quantity = quantity
+                self.transactionId = transactionId
+            }
     }
   }
 }

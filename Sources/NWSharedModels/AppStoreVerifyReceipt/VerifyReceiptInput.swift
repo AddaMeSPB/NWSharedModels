@@ -4,21 +4,17 @@ public struct VerifyReceiptInput: Equatable, Codable {
 
     public init(
         receiptData: Data,
-        excludeOldTransactions: Bool? = nil,
-        password: String
+        excludeOldTransactions: Bool? = nil
     ) {
         self.receiptData = receiptData
         self.excludeOldTransactions = excludeOldTransactions
-        self.password = password
     }
     public let receiptData: Data
     public let excludeOldTransactions: Bool?
-    public let password: String
 
     enum CodingKeys: String, CodingKey {
         case receiptData = "receipt-data"
         case excludeOldTransactions = "exclude-old-transactions"
-        case password
     }
 }
 
