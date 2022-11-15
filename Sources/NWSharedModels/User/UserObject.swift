@@ -24,6 +24,15 @@ public enum UserRole: String, Codable, CaseIterable {
 
 public enum UserLanguage: String, Codable, CaseIterable {
     case russian, english, bangla, spanish
+
+    public var rawValue: String {
+        switch self {
+        case .english: return "english"
+        case .russian: return "russian"
+        case .bangla: return "bangla"
+        case .spanish: return "spanish"
+        }
+    }
 }
 
 public struct UserRoleAndLanguage: Encodable {

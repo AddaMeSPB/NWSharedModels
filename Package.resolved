@@ -109,6 +109,15 @@
       }
     },
     {
+      "identity" : "phonenumberkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/marmelroy/PhoneNumberKit",
+      "state" : {
+        "revision" : "143ea15033dc6fede5ec73d96d9296a54dad8fef",
+        "version" : "3.5.1"
+      }
+    },
+    {
       "identity" : "routing-kit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/routing-kit.git",
@@ -264,10 +273,10 @@
     {
       "identity" : "swift-url-routing",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/pointfreeco/swift-url-routing.git",
+      "location" : "https://github.com/saroar/swift-url-routing",
       "state" : {
-        "revision" : "80e8a0257ccdd639e31f709954ceca6b690fdc67",
-        "version" : "0.3.1"
+        "branch" : "main",
+        "revision" : "ac2a0b9ca7500caa5980b645d0329ad32e30b29c"
       }
     },
     {

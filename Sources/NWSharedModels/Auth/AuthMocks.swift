@@ -1,7 +1,12 @@
 import BSON
+import Foundation
 
-extension VerifySMSInOutput {
-    static public var draff: VerifySMSInOutput = .init(
+extension MobileAndDeviceCheckDataInput {
+    static public var draff: MobileAndDeviceCheckDataInput = .init(phoneNumber: "+79218821217", deviceCheckData: Data())
+}
+
+extension VerifySMSOutput {
+    static public var draff: VerifySMSOutput = .init(
         phoneNumber: "+79218821217",
         attemptId: "165541EC-692E-440A-9CF8-565776E9DC99",
         code: "336699",

@@ -1,4 +1,5 @@
 import URLRouting
+import Foundation
 
 public enum AuthEngineRoute: Equatable {
     case authentication(AuthenticationRoute)
@@ -19,22 +20,23 @@ public let authEngineRoute = OneOf {
 }
 
 public enum AuthenticationRoute: Equatable {
-    case login(input: VerifySMSInOutput)
-    case verifySms(input: VerifySMSInOutput)
+    case login(input: MobileAndDeviceCheckDataInput)
+    case verifySms(input: VerifySmsCodeinput)
     case refreshToken(input: RefreshTokenInput)
 }
 
 public let authenticationRouter = OneOf {
+
     Route(.case(AuthenticationRoute.login)) {
         Path { "login" }
         Method.post
-        Body(.json(VerifySMSInOutput.self))
+        Body(.json(MobileAndDeviceCheckDataInput.self))
     }
 
     Route(.case(AuthenticationRoute.verifySms)) {
         Path { "verify_sms" }
         Method.post
-        Body(.json(VerifySMSInOutput.self))
+        Body(.json(VerifySmsCodeinput.self))
     }
 
     Route(.case(AuthenticationRoute.refreshToken)) {

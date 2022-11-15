@@ -8,24 +8,74 @@
 #if os(macOS) || os(Linux)
 import Vapor
 
-extension VerifySMSInOutput: Content {}
-extension LoginInput: Content {}
+extension MobileAndDeviceCheckDataInput: Content {}
+extension VerifySMSOutput: Content {}
+extension VerifySmsCodeinput: Content {}
 extension SendUserVerificationResponse: Content {}
 extension UserVerificationPayload: Content {}
 #endif
 
 import BSON
+import Foundation
+import PhoneNumberKit
 
-public struct VerifySMSInOutput: Codable, Equatable {
+extension String {
+    public func varifyMobileNumber() async throws -> String {
+        enum MobileNumberError: Error {
+            case invalidNumber
+        }
+
+        let phoneNumberKit = PhoneNumberKit()
+
+        do {
+            _ = try phoneNumberKit.parse(self)
+        } catch {
+            throw MobileNumberError.invalidNumber
+        }
+
+        return self
+    }
+}
+
+public struct MobileAndDeviceCheckDataInput: Codable, Equatable {
   public var phoneNumber: String
-  public var attemptId: String?
-  public var code: String?
+  public var deviceCheckData: Data
+
+  public init(
+    phoneNumber: String,
+    deviceCheckData: Data
+  ) {
+    self.phoneNumber = phoneNumber
+    self.deviceCheckData = deviceCheckData
+  }
+}
+
+public struct VerifySmsCodeinput: Codable, Equatable {
+    public init(
+        phoneNumber: String,
+        attemptId: ObjectId,
+        code: String
+    ) {
+        self.phoneNumber = phoneNumber
+        self.attemptId = attemptId
+        self.code = code
+    }
+
+    public var phoneNumber: String
+    public var attemptId: ObjectId
+    public var code: String
+}
+
+public struct VerifySMSOutput: Codable, Equatable {
+  public var phoneNumber: String
+  public var attemptId: String
+  public var code: String
   public var isLoggedIn: Bool? = false
 
   public init(
     phoneNumber: String,
-    attemptId: String? = nil,
-    code: String? = nil,
+    attemptId: String,
+    code: String,
     isLoggedIn: Bool? = false
   ) {
     self.phoneNumber = phoneNumber
@@ -37,13 +87,6 @@ public struct VerifySMSInOutput: Codable, Equatable {
 }
 
 // this belove code have to remove we have already alternative struct this
-public struct LoginInput: Codable {
-    public init(phoneNumber: String) {
-        self.phoneNumber = phoneNumber
-    }
-    
-    public let phoneNumber: String
-}
 
 public struct SendUserVerificationResponse: Codable {
     public init(phoneNumber: String, attemptId: ObjectId) {
@@ -51,8 +94,13 @@ public struct SendUserVerificationResponse: Codable {
         self.attemptId = attemptId
     }
     
-    public let phoneNumber: String
-    public let attemptId: ObjectId
+    public var phoneNumber: String
+    public var attemptId: ObjectId
+}
+
+extension SendUserVerificationResponse: Equatable {}
+extension SendUserVerificationResponse {
+    static public let demo: SendUserVerificationResponse = .init(phoneNumber: "+79218821214", attemptId: ObjectId() )
 }
 
 public struct UserVerificationPayload: Codable {

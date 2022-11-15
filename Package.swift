@@ -25,8 +25,11 @@ let package = Package(
 
         // Route
         .package(url: "https://github.com/pointfreeco/vapor-routing.git", from: "0.1.1"),
-        .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.3.0"),
-        .package(url: "https://github.com/OpenKitten/BSON.git", from: "7.0.0")
+//        .package(path: "../swift-url-routing-main"),
+//        .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.3.0"),
+        .package(url: "https://github.com/saroar/swift-url-routing", branch: "main"),
+        .package(url: "https://github.com/OpenKitten/BSON.git", from: "7.0.0"),
+        .package(url: "https://github.com/marmelroy/PhoneNumberKit", from: "3.4.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package.
@@ -61,6 +64,9 @@ let package = Package(
                     package: "jwt",
                     condition: .when(platforms: [.macOS, .linux])
                 ),
+
+                // IOS + MacOS + Linux
+                .product(name: "PhoneNumberKit", package: "PhoneNumberKit"),
 
                 // IOS
                 .product(
