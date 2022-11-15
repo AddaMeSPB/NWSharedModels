@@ -41,7 +41,9 @@ public final class WordModel: Model, Content, PropertyNames {
         spanishVideoLink: String? = nil,
 
 		isReadFromNotification: Bool = false, isReadFromView: Bool = false,
-		level: WordLevel = .beginner, userId: ObjectId
+		level: WordLevel = .beginner, userId: ObjectId,
+        isActive: Bool = false,
+        isComplete: Bool = false
 	) {
 		self.id = id
         self.icon = icon
@@ -70,6 +72,9 @@ public final class WordModel: Model, Content, PropertyNames {
 		self.level = level
 
 		$user.id = userId
+
+        self.isActive = isActive
+        self.isComplete = isComplete
 	}
 
     // @ID(key: "id") public var id: ObjectId?
@@ -101,6 +106,9 @@ public final class WordModel: Model, Content, PropertyNames {
 	@Field(key: "level") public var level: WordLevel
 	@Parent(key: "userId") public var user: UserModel
 
+    @Field(key: "isActive") public var isActive: Bool
+    @Field(key: "isComplete") public var isComplete: Bool
+
 	@Timestamp(key: "createdAt", on: .create) public var createdAt: Date?
 	@Timestamp(key: "updatedAt", on: .update) public var updatedAt: Date?
 
@@ -110,22 +118,22 @@ extension WordModel {
 
     public func mapGet() -> WordGetObject {
 		.init(
-            _id: id!,
+            id: id!.hexString,
             icon: icon,
 
             englishWord: englishWord,
             englishDefinition: englishDefinition,
-			englishImageLink: englishImageLink,
+            englishImageLink: englishImageLink,
             englishVideoLink: englishVideoLink,
 
-			russianWord: russianWord,
+            russianWord: russianWord,
             russianDefinition: russianDefinition,
-			russianImageLink: russianImageLink,
+            russianImageLink: russianImageLink,
             russianVideoLink: russianVideoLink,
 
-			banglaWord: banglaWord,
+            banglaWord: banglaWord,
             banglaDefinition: banglaDefinition,
-			banglaImageLink: banglaImageLink,
+            banglaImageLink: banglaImageLink,
             banglaVideoLink: banglaVideoLink,
 
             spanishWord: spanishWord,
@@ -133,8 +141,12 @@ extension WordModel {
             spanishImageLink: spanishImageLink,
             spanishVideoLink: spanishVideoLink,
 
-			isReadFromNotification: isReadFromNotification,
-            isReadFromView: isReadFromView, user: user.mapGetPublic(), level: level,
+            isReadFromNotification: isReadFromNotification,
+            isReadFromView: isReadFromView,
+            level: level,
+            user: user.mapGetPublic(),
+            isActive: isActive, isComplete: isComplete,
+
 			createdAt: createdAt, updatedAt: updatedAt
 		)
 	}
@@ -164,6 +176,9 @@ extension WordModel {
 		isReadFromNotification = input.isReadFromNotification
 		isReadFromView = input.isReadFromView
 		level = input.level
+
+        isActive = input.isActive
+        isComplete = input.isComplete
 	}
 
     public func update(_ input: WordUpdateObject) async throws {
@@ -186,11 +201,14 @@ extension WordModel {
         isReadFromNotification = input.isReadFromNotification
         isReadFromView = input.isReadFromView
         level = input.level
+
+        isActive = input.isActive
+        isComplete = input.isComplete
  
     }
 }
 extension Language: Content {}
 extension WordCreateObject: Content {}
 extension WordGetObject: Content {}
-extension WordGetObjectWithUser: Content {}
+extension WordGetObjectWithoutUser: Content {}
 #endif
