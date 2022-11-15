@@ -85,40 +85,6 @@ public struct WordGetObjectWithUser: Codable {
      public var updatedAt: Date?
 }
 
-public struct WordGetObject: Codable {
-
-    public var _id: ObjectId
-    public var icon: String?
-    public let englishWord: String
-    public let englishDefinition: String
-    public let englishImageLink: String?
-    public let englishVideoLink: String?
-
-    public let russianWord: String?
-    public let russianDefinition: String?
-    public let russianImageLink: String?
-    public let russianVideoLink: String?
-
-    public let banglaWord: String?
-    public let banglaDefinition: String?
-    public let banglaImageLink: String?
-    public let banglaVideoLink: String?
-
-    public var spanishWord: String?
-    public var spanishDefinition: String?
-    public var spanishImageLink: String?
-    public var spanishVideoLink: String?
-
-    public let isReadFromNotification: Bool
-    public let isReadFromView: Bool
-    public let user: UserGetPublicObject
-
-    public let level: WordLevel
-
-    public var createdAt: Date?
-    public var updatedAt: Date?
-}
-
 public struct WordCreateObject: Codable {
     public var icon: String?
     public var englishWord: String
@@ -183,7 +149,7 @@ public struct WordEditObject: Codable {
     public var wordLevelAllCases = WordLevel.allCases
 }
 
-extension Word {
+extension WordGetObject {
     public var englishTitle: String {
         if let iconR = icon {
             return iconR + " " + englishWord
@@ -261,16 +227,16 @@ extension Word {
     }
 }
 
-public struct Word: Equatable, Identifiable, Codable {
+public struct WordGetObject: Equatable, Identifiable, Codable {
 
     public var id: String
     public let icon: String?
 
     // English
-    public let englishWord: String
-    public let englishDefinition: String
-    public let englishImageLink: String?
-    public let englishVideoLink: String?
+    public var englishWord: String
+    public var englishDefinition: String
+    public var englishImageLink: String?
+    public var englishVideoLink: String?
 
     // Russian
     public var russianWord: String?
@@ -296,10 +262,13 @@ public struct Word: Equatable, Identifiable, Codable {
     public var level: WordLevel
     public var user: UserGetPublicObject?
 
+    public var isActive: Bool = false
+    public var isComplete: Bool = false
+
     public var createdAt: Date?
     public var updatedAt: Date?
 
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case id = "_id"
         case icon
 
@@ -312,6 +281,8 @@ public struct Word: Equatable, Identifiable, Codable {
         case spanishWord, spanishDefinition, spanishImageLink, spanishVideoLink
 
         case isReadFromView, level, isReadFromNotification, user
+
+        case isActive, isComplete
 
         case createdAt, updatedAt
     }
@@ -347,6 +318,9 @@ public struct Word: Equatable, Identifiable, Codable {
         isReadFromView: Bool = false,
         level: WordLevel = .beginner,
         user: UserGetPublicObject? = nil,
+
+        isActive: Bool = false,
+        isComplete: Bool = false,
 
         createdAt: Date? = nil,
         updatedAt: Date? = nil
@@ -384,50 +358,17 @@ public struct Word: Equatable, Identifiable, Codable {
         self.level = level
         self.user = user
 
+        self.isActive = isActive
+        self.isComplete = isComplete
+
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
 
-    public init(_ word: Word) {
-        self.id = word.id
-        self.icon = word.icon
-
-        // English
-        self.englishWord = word.englishWord
-        self.englishDefinition = word.englishDefinition
-        self.englishImageLink = word.englishImageLink
-        self.englishVideoLink = word.englishVideoLink
-
-        // Russian
-        self.russianWord = word.russianWord
-        self.russianDefinition = word.russianDefinition
-        self.russianImageLink = word.russianImageLink
-        self.russianVideoLink = word.russianVideoLink
-
-        // Bangla
-        self.banglaWord = word.banglaWord
-        self.banglaDefinition = word.banglaDefinition
-        self.banglaImageLink = word.banglaImageLink
-        self.banglaVideoLink = word.banglaVideoLink
-
-        // Spanish
-        self.spanishWord = word.spanishWord
-        self.spanishDefinition = word.spanishDefinition
-        self.spanishImageLink = word.spanishImageLink
-        self.spanishVideoLink = word.spanishVideoLink
-
-        self.isReadFromNotification = word.isReadFromNotification
-        self.isReadFromView = word.isReadFromView
-        self.level = word.level
-        self.user = word.user
-        
-        self.createdAt = word.createdAt
-        self.updatedAt = word.updatedAt
-    }
 }
 
-extension Word: Hashable {
-    public static func == (lhs: Word, rhs: Word) -> Bool {
+extension WordGetObject: Hashable {
+    public static func == (lhs: WordGetObject, rhs: WordGetObject) -> Bool {
         return lhs.id == rhs.id && lhs.id == rhs.id
     }
 
@@ -436,7 +377,7 @@ extension Word: Hashable {
     }
 }
 
-extension Word {
+extension WordGetObject {
     public static let demo: Self = .init(
         id: UUID().uuidString,
         englishWord: "Apple",
@@ -454,16 +395,16 @@ extension Word {
 public struct DayWords: Codable, Equatable, Identifiable {
     public var id: String { return "\(dayNumber)" }
     public var dayNumber: Int
-    public var words: [Word] = []
+    public var words: [WordGetObject] = []
 
-    public init(dayNumber: Int, words: [Word] = []) {
+    public init(dayNumber: Int, words: [WordGetObject] = []) {
         self.dayNumber = dayNumber
         self.words = words
     }
 }
 
 extension DayWords {
-    public static let happyPath: DayWords = .init(dayNumber: 117, words: Word.mockDatas)
+    public static let happyPath: DayWords = .init(dayNumber: 117, words: WordGetObject.mockDatas)
 }
 
 public struct User: Codable, Equatable {
@@ -474,10 +415,10 @@ extension User {
     public static var demo: User = .init(fullName: "Saroar", language: "ru", id: "624c31898addf0419b877915", role: "superAdmin")
 }
 
-extension Word {
-    public static let mockEmpty: Word = .init(id: "", englishWord: "", englishDefinition: "")
-    public static let mockDatas: [Word] = [
-        Word(
+extension WordGetObject {
+    public static let mockEmpty: WordGetObject = .init(id: "", englishWord: "", englishDefinition: "")
+    public static let mockDatas: [WordGetObject] = [
+        WordGetObject(
             id: "D6168009-CEA2-45FC-874B-1426F7FB1005", icon: "🍏", englishWord: "Apple", englishDefinition: "AppleAppleAppleAppleAppleApple", englishImageLink: nil, englishVideoLink: nil,
 
             russianWord: "Яблока", russianDefinition: "ЯблокаЯблокаЯблокаЯблокаЯблокаЯблока", russianImageLink: nil, russianVideoLink: nil,
@@ -487,7 +428,7 @@ extension Word {
             isReadFromNotification: false, isReadFromView: false, level: .beginner, user: nil, createdAt: nil, updatedAt: nil
         ),
 
-        Word(
+        WordGetObject(
             id: "610800E5-A59C-44F5-ACC3-6809F39B42D2", icon: "🧰", englishWord: "Able", englishDefinition: "AbleAbleAbleAbleAbleAble", englishImageLink: nil, englishVideoLink: nil,
 
             russianWord: "Способный", russianDefinition: "СпособныйСпособныйСпособныйСпособныйСпособный", russianImageLink: nil, russianVideoLink: nil,
@@ -497,7 +438,7 @@ extension Word {
             isReadFromNotification: false, isReadFromView: false, level: .beginner, user: nil, createdAt: nil, updatedAt: nil
         ),
 
-        Word(
+        WordGetObject(
             id: "FC6F24EF-0DF7-4551-97AA-64E0340860D5", icon: "💨", englishWord: "Air", englishDefinition: "Air Air Air Air Air Air", englishImageLink: nil, englishVideoLink: nil,
 
             russianWord: "Воздух", russianDefinition: "Воздух Воздух Воздух Воздух", russianImageLink: nil, russianVideoLink: nil,
