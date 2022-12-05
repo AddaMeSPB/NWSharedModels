@@ -24,7 +24,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/jwt.git", from: "4.2.1"),
 
         // Route
-        .package(url: "https://github.com/pointfreeco/vapor-routing.git", from: "0.1.1"),
+        .package(url: "https://github.com/pointfreeco/vapor-routing.git", from: "0.1.2"),
 //        .package(path: "../swift-url-routing-main"),
 //        .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.3.0"),
         .package(url: "https://github.com/saroar/swift-url-routing", branch: "main"),

@@ -89,18 +89,24 @@ public struct VerifySMSOutput: Codable, Equatable {
 // this belove code have to remove we have already alternative struct this
 
 public struct SendUserVerificationResponse: Codable {
-    public init(phoneNumber: String, attemptId: ObjectId) {
+    public init(
+        phoneNumber: String,
+        attemptId: ObjectId,
+        msg: WillSendLoginSMSCode
+    ) {
         self.phoneNumber = phoneNumber
         self.attemptId = attemptId
+        self.msg = msg
     }
     
     public var phoneNumber: String
     public var attemptId: ObjectId
+    public var msg: WillSendLoginSMSCode
 }
 
 extension SendUserVerificationResponse: Equatable {}
 extension SendUserVerificationResponse {
-    static public let demo: SendUserVerificationResponse = .init(phoneNumber: "+79218821214", attemptId: ObjectId() )
+    static public let demo: SendUserVerificationResponse = .init(phoneNumber: "+79218821214", attemptId: ObjectId(), msg: .init(bool: false, maxCount: 3, leftCount: 0) )
 }
 
 public struct UserVerificationPayload: Codable {
