@@ -9,8 +9,8 @@
 import Vapor
 
 extension RefreshTokenResponse: Content {}
-extension LoginResponseP: Content {}
 extension UserSuccessResponse: Content {}
+extension SuccessfulLoginResponse: Content {}
 
 #endif
 
@@ -35,23 +35,25 @@ public struct RefreshTokenResponse: Codable {
 
 // MARK: - Login Response for mobile auth
 
-public struct LoginResponseP: Codable, Equatable {
-  public let status: String
-  public let user: UserGetObject?
-  public let access: RefreshTokenResponse?
+public struct SuccessfulLoginResponse: Codable {
+    public let status: String
+    public let user: UserGetObject?
+    public let access: RefreshTokenResponse?
 
-  public init(
-    status: String,
-    user: UserGetObject? = nil,
-    access: RefreshTokenResponse? = nil
-  ) {
-    self.status = status
-    self.user = user
-    self.access = access
-  }
+    public init(
+      status: String,
+      user: UserGetObject? = nil,
+      access: RefreshTokenResponse? = nil
+    ) {
+      self.status = status
+      self.user = user
+      self.access = access
+    }
 
     public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.user == rhs.user
-        && lhs.access?.accessToken == rhs.access?.accessToken
+      lhs.user == rhs.user
+      && lhs.access?.accessToken == rhs.access?.accessToken
     }
 }
+
+extension SuccessfulLoginResponse: Equatable {}

@@ -14,8 +14,8 @@ extension VerifySMSOutput {
     )
 }
 
-extension LoginResponseP {
-    static public var draff: LoginResponseP = .init(status: "online", user: .init(id: ObjectId(),fullName: "Saroar", email: "", role: .superAdmin, language: .english), access: .draff)
+extension SuccessfulLoginResponse {
+    static public var draff: SuccessfulLoginResponse = .init(status: "online", user: .init(id: ObjectId(),fullName: "Saroar", email: "", role: .superAdmin, language: .english), access: .draff)
 }
 
 extension RefreshTokenResponse {
