@@ -10,20 +10,27 @@ import Vapor
 import Fluent
 import BSON
 
-public final class SMSVerificationAttempt: Model, Content {
-    static public let schema = "sms_verification_attempts"
+public final class VerificationCodeAttempt: Model, Content {
+    static public let schema = "verification_code_attempts"
     
     @ID(custom: "id") public var id: ObjectId?
-    @Field(key: "expiresAt") public var expiresAt: Date?
-    @Field(key: "phoneNumber") public var phoneNumber: String
+    @Field(key: "phoneNumber") public var phoneNumber: String?
+    @Field(key: "email") public var email: String?
     @Field(key: "code") public var code: String
+    @Field(key: "expiresAt") public var expiresAt: Date?
     
     public init() { }
     
-    public init(code: String, expiresAt: Date?, phoneNumber: String) {
+    public init(
+        phoneNumber: String? = nil,
+        email: String? = nil,
+        code: String,
+        expiresAt: Date?
+    ) {
+        self.phoneNumber = phoneNumber
+        self.email = email
         self.code = code
         self.expiresAt = expiresAt
-        self.phoneNumber = phoneNumber
     }
 }
 

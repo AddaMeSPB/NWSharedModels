@@ -8,24 +8,15 @@
 import Foundation
 
 public struct LanguageCode: Codable, Hashable, Equatable {
-  public var name: String
-  public var nativeName: String
-  public var code: String
-  
-  public var description: String {
-    return "\(countryFlag(countryCode: code.uppercased())) \(nativeName.capitalized)"
-  }
-  
-  func countryFlag(countryCode: String) -> String {
-    let base = 127397
-    var tempScalarView = String.UnicodeScalarView()
-    for i in countryCode.utf16 {
-      if let scalar = UnicodeScalar(base + Int(i)) {
-        tempScalarView.append(scalar)
-      }
+    public var name: String
+    public var nativeName: String
+    public var code: String
+}
+
+extension LanguageCode: CustomStringConvertible {
+    public var description: String {
+        return "\(code.countryFlag) ⇡ \(nativeName.capitalized)"
     }
-    return String(tempScalarView)
-  }
 }
 
 extension LanguageCode {

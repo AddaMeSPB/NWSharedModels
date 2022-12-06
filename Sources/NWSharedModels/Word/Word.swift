@@ -1,214 +1,473 @@
-//
-//  Word.swift
-//  
-//
-//  Created by Saroar Khandoker on 29.11.2021.
-//
+import BSON
+import Foundation
 
-//#if os(macOS) || os(Linux)
-//import Vapor
-//import Fluent
-//import FluentMongoDriver
-//
-//public final class WordModel: Model, Content, PropertyNames {
-//
-//    public static var schema = "words"
-//
-//    public init() {}
-//
-//    public init(
-//		id: ObjectId? = nil,
-//        icon: String? = nil,
-//
-//		englishWord: String,
-//        englishDefinition: String,
-//		englishImageLink: String? = nil,
-//        englishVideoLink: String? = nil,
-//
-//		russianWord: String? = nil,
-//        russianDefinition: String? = nil,
-//		russianImageLink: String? = nil,
-//        russianVideoLink: String? = nil,
-//
-//		banglaWord: String? = nil,
-//        banglaDefinition: String? = nil,
-//		banglaImageLink: String? = nil,
-//        banglaVideoLink: String? = nil,
-//
-//        spanishWord: String? = nil,
-//        spanishDefinition: String? = nil,
-//        spanishImageLink: String? = nil,
-//        spanishVideoLink: String? = nil,
-//
-//		isReadFromNotification: Bool = false, isReadFromView: Bool = false,
-//		level: WordLevel = .beginner, userId: ObjectId,
-//        isActive: Bool = false,
-//        isComplete: Bool = false
-//	) {
-//		self.id = id
-//        self.icon = icon
-//		self.englishWord = englishWord
-//		self.englishDefinition = englishDefinition
-//		self.englishImageLink = englishImageLink
-//		self.englishVideoLink = englishVideoLink
-//
-//		self.russianWord = russianWord
-//		self.russianDefinition = russianDefinition
-//		self.russianImageLink = russianImageLink
-//		self.russianVideoLink = russianVideoLink
-//
-//		self.banglaWord = banglaWord
-//		self.banglaDefinition = banglaDefinition
-//		self.banglaImageLink = banglaImageLink
-//		self.banglaVideoLink = banglaVideoLink
-//
-//        self.spanishWord = spanishWord
-//        self.spanishDefinition = spanishDefinition
-//        self.spanishImageLink = spanishImageLink
-//        self.spanishVideoLink = spanishVideoLink
-//
-//		self.isReadFromNotification = isReadFromNotification
-//		self.isReadFromView = isReadFromView
-//		self.level = level
-//
-//		$user.id = userId
-//
-//        self.isActive = isActive
-//        self.isComplete = isComplete
-//	}
-//
-//    // @ID(key: "id") public var id: ObjectId?
-//	@ID(custom: "id") public var id: ObjectId?
-//
-//    @OptionalField(key: "icon") public var icon: String?
-//	@Field(key: "englishWord") public var englishWord: String
-//	@Field(key: "englishDefinition") public var englishDefinition: String
-//	@OptionalField(key: "englishImageLink") public var englishImageLink: String?
-//	@OptionalField(key: "englishVideoLink") public var englishVideoLink: String?
-//
-//	@OptionalField(key: "russianWord") public var russianWord: String?
-//	@OptionalField(key: "russianDefinition") public var russianDefinition: String?
-//	@OptionalField(key: "russianImageLink") public var russianImageLink: String?
-//	@OptionalField(key: "russianVideoLink") public var russianVideoLink: String?
-//
-//	@OptionalField(key: "banglaWord") public var banglaWord: String?
-//	@OptionalField(key: "banglaDefinition") public var banglaDefinition: String?
-//	@OptionalField(key: "banglaImageLink") public var banglaImageLink: String?
-//	@OptionalField(key: "banglaVideoLink") public var banglaVideoLink: String?
-//
-//    @OptionalField(key: "spanishWord") public var spanishWord: String?
-//    @OptionalField(key: "spanishDefinition") public var spanishDefinition: String?
-//    @OptionalField(key: "spanishImageLink") public var spanishImageLink: String?
-//    @OptionalField(key: "spanishVideoLink") public var spanishVideoLink: String?
-//
-//	@Field(key: "isReadFromNotification") public var isReadFromNotification: Bool
-//	@Field(key: "isReadFromView") public var isReadFromView: Bool
-//	@Field(key: "level") public var level: WordLevel
-//	@Parent(key: "userId") public var user: UserModel
-//
-//    @Field(key: "isActive") public var isActive: Bool
-//    @Field(key: "isComplete") public var isComplete: Bool
-//
-//	@Timestamp(key: "createdAt", on: .create) public var createdAt: Date?
-//	@Timestamp(key: "updatedAt", on: .update) public var updatedAt: Date?
-//
-//}
-//
-//extension WordModel {
-//
-//    public func mapGet() -> WordGetObject {
-//		.init(
-//            id: id!.hexString,
-//            icon: icon,
-//
-//            englishWord: englishWord,
-//            englishDefinition: englishDefinition,
-//            englishImageLink: englishImageLink,
-//            englishVideoLink: englishVideoLink,
-//
-//            russianWord: russianWord,
-//            russianDefinition: russianDefinition,
-//            russianImageLink: russianImageLink,
-//            russianVideoLink: russianVideoLink,
-//
-//            banglaWord: banglaWord,
-//            banglaDefinition: banglaDefinition,
-//            banglaImageLink: banglaImageLink,
-//            banglaVideoLink: banglaVideoLink,
-//
-//            spanishWord: spanishWord,
-//            spanishDefinition: spanishDefinition,
-//            spanishImageLink: spanishImageLink,
-//            spanishVideoLink: spanishVideoLink,
-//
-//            isReadFromNotification: isReadFromNotification,
-//            isReadFromView: isReadFromView,
-//            level: level,
-//            user: user.mapGetPublic(),
-//            isActive: isActive, isComplete: isComplete,
-//
-//			createdAt: createdAt, updatedAt: updatedAt
-//		)
-//	}
-//
-//    public func create(_ input: WordCreateObject) {
-//        icon = input.icon
-//		englishWord = input.englishWord
-//		englishDefinition = input.englishDefinition
-//		englishImageLink = input.englishImageLink
-//		englishVideoLink = input.englishVideoLink
-//
-//		russianWord = input.russianWord
-//		russianDefinition = input.russianDefinition
-//		russianImageLink = input.russianImageLink
-//		russianVideoLink = input.russianVideoLink
-//
-//		banglaWord = input.banglaWord
-//		banglaDefinition = input.banglaDefinition
-//		banglaImageLink = input.banglaImageLink
-//		banglaVideoLink = input.banglaVideoLink
-//
-//        spanishWord = input.spanishWord
-//        spanishDefinition = input.spanishDefinition
-//        spanishImageLink = input.spanishImageLink
-//        spanishVideoLink = input.spanishVideoLink
-//
-//		isReadFromNotification = input.isReadFromNotification
-//		isReadFromView = input.isReadFromView
-//		level = input.level
-//
-//        isActive = input.isActive
-//        isComplete = input.isComplete
-//	}
-//
-//    public func update(_ input: WordUpdateObject) async throws {
-//        icon = input.icon
-//        englishWord = input.englishWord
-//        englishDefinition = input.englishDefinition
-//        englishImageLink = input.englishImageLink
-//        englishVideoLink = input.englishVideoLink
-//
-//        russianWord = input.russianWord
-//        russianDefinition = input.russianDefinition
-//        russianImageLink = input.russianImageLink
-//        russianVideoLink = input.russianVideoLink
-//
-//        banglaWord = input.banglaWord
-//        banglaDefinition = input.banglaDefinition
-//        banglaImageLink = input.banglaImageLink
-//        banglaVideoLink = input.banglaVideoLink
-//
-//        isReadFromNotification = input.isReadFromNotification
-//        isReadFromView = input.isReadFromView
-//        level = input.level
-//
-//        isActive = input.isActive
-//        isComplete = input.isComplete
-// 
-//    }
-//}
-//extension Language: Content {}
-//extension WordCreateObject: Content {}
-//extension WordGetObject: Content {}
-//extension WordGetObjectWithoutUser: Content {}
-//#endif
+public enum WordLevel: String, Equatable, Codable, CaseIterable {
+    case beginner = "Beginner"
+    case intermediate = "Intermediate"
+    case advanced = "Advanced"
+}
+
+public let allCases = WordLevel.allCases
+
+public struct WordCreateObject: Codable {
+    public var userId: ObjectId
+    public var icon: String?
+    public var english: Translation
+    public var russian: Translation?
+    public var bangla: Translation?
+    public var spanish: Translation?
+    public var romanian: Translation?
+
+    public var isReadFromNotification: Bool = false
+    public var isReadFromView: Bool = false
+
+    public var isActive: Bool = false
+    public var isComplete: Bool = false
+
+    public var level: WordLevel = .beginner
+}
+
+public struct WordUpdateObject: Codable {
+    public var id: ObjectId
+    public var icon: String?
+    public var english: Translation
+    public var russian: Translation?
+    public var bangla: Translation?
+    public var spanish: Translation?
+    public var romanian: Translation?
+
+    public var isReadFromNotification: Bool = false
+    public var isReadFromView: Bool = false
+
+    public var isActive: Bool = false
+    public var isComplete: Bool = false
+
+    public var level: WordLevel = .beginner
+}
+
+// MARK: WordGetObject WithUser
+public struct WordGetObjectWithUser: Codable, Equatable, Identifiable {
+
+    public var id: String
+    public let icon: String?
+
+    public var english: Translation
+    public var russian: Translation?
+    public var bangla: Translation?
+    public var spanish: Translation?
+    public var romanian: Translation?
+
+    public var imageLink: String?
+    public var videoLink: String?
+
+    public var isReadFromNotification: Bool
+    public var isReadFromView: Bool
+
+    public var level: WordLevel
+    public var user: UserGetPublicObject?
+
+    public var isActive: Bool = false
+    public var isComplete: Bool = false
+
+    public var createdAt: Date?
+    public var updatedAt: Date?
+
+    public init(
+        id: String,
+        icon: String? = nil,
+        english: Translation,
+        russian: Translation? = nil,
+        bangla: Translation? = nil,
+        spanish: Translation? = nil,
+        romanian: Translation? = nil,
+        imageLink: String? = nil,
+        videoLink: String? = nil,
+        isReadFromNotification: Bool,
+        isReadFromView: Bool,
+        level: WordLevel,
+        user: UserGetPublicObject? = nil,
+        isActive: Bool = false,
+        isComplete: Bool = false,
+        createdAt: Date? = nil,
+        updatedAt: Date? = nil
+    ) {
+        self.id = id
+        self.icon = icon
+        self.english = english
+        self.russian = russian
+        self.bangla = bangla
+        self.spanish = spanish
+        self.romanian = romanian
+        self.imageLink = imageLink
+        self.videoLink = videoLink
+        self.isReadFromNotification = isReadFromNotification
+        self.isReadFromView = isReadFromView
+        self.level = level
+        self.user = user
+        self.isActive = isActive
+        self.isComplete = isComplete
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+    }
+
+    public enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case icon
+
+        case english, russian, bangla, spanish, romanian
+
+        case imageLink, videoLink
+
+        case isReadFromView, level, isReadFromNotification, user
+
+        case isActive, isComplete
+
+        case createdAt, updatedAt
+    }
+
+}
+
+extension WordGetObjectWithUser: Hashable {
+    public static func == (lhs: WordGetObjectWithUser, rhs: WordGetObjectWithUser) -> Bool {
+        return lhs.id == rhs.id && lhs.id == rhs.id
+        && lhs.english == rhs.english
+        && lhs.russian == rhs.russian
+        && lhs.bangla == rhs.bangla
+        && lhs.spanish == rhs.spanish
+        && lhs.romanian == rhs.romanian
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+extension WordGetObjectWithUser {
+
+    public static var empty: WordGetObjectWithUser = .init(
+        id: "",
+        english: .empty,
+        isReadFromNotification: false,
+        isReadFromView: false, level: .beginner
+    )
+
+    public var englishWordTitle: String {
+        return "\(icon ?? "") " + english.word
+    }
+
+    public func banglaWordTitle() -> String? {
+        if let wordb = bangla?.word {
+            return "\(icon ?? "")\(wordb)"
+        }
+        return nil
+    }
+
+    public func russianWordTitle() -> String? {
+        if let wordr = russian?.word {
+            return "\(icon ?? "")" + wordr
+        }
+        return nil
+    }
+
+    public func spanishWordTitle() -> String? {
+        if let words = spanish?.word {
+            return "\(icon ?? "")" + words
+        } else {
+            return nil
+        }
+    }
+
+    public func romanianWordTitle() -> String? {
+        if let words = romanian?.word {
+            return "\(icon ?? "")" + words
+        } else {
+            return nil
+        }
+    }
+
+
+}
+
+// MARK: WordGetObject WithoutUser
+public struct WordGetObjectWithoutUser: Codable, Equatable, Identifiable {
+
+    public var id: String
+    public let icon: String?
+
+    public var from: Translation
+    public var to: Translation
+
+    public var english: Translation
+    public var russian: Translation?
+    public var bangla: Translation?
+    public var spanish: Translation?
+    public var romanian: Translation?
+
+    public var imageLink: String?
+    public var videoLink: String?
+
+    public var isReadFromNotification: Bool
+    public var isReadFromView: Bool
+
+    public var level: WordLevel
+    public var user: UserGetPublicObject?
+
+    public var isActive: Bool = false
+    public var isComplete: Bool = false
+
+    public var createdAt: Date?
+    public var updatedAt: Date?
+
+    public init(
+        id: String,
+        icon: String? = nil,
+        from: Translation,
+        to: Translation,
+        english: Translation,
+        russian: Translation? = nil,
+        bangla: Translation? = nil,
+        spanish: Translation? = nil,
+        romanian: Translation? = nil,
+        imageLink: String? = nil,
+        videoLink: String? = nil,
+        isReadFromNotification: Bool,
+        isReadFromView: Bool,
+        level: WordLevel,
+        user: UserGetPublicObject? = nil,
+        isActive: Bool = false,
+        isComplete: Bool = false,
+        createdAt: Date? = nil,
+        updatedAt: Date? = nil
+    ) {
+        self.id = id
+        self.icon = icon
+        self.from = from
+        self.to = to
+        self.english = english
+        self.russian = russian
+        self.bangla = bangla
+        self.spanish = spanish
+        self.romanian = romanian
+        self.imageLink = imageLink
+        self.videoLink = videoLink
+        self.isReadFromNotification = isReadFromNotification
+        self.isReadFromView = isReadFromView
+        self.level = level
+        self.user = user
+        self.isActive = isActive
+        self.isComplete = isComplete
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+    }
+
+    public enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case icon
+
+        case from, to
+        case english, russian, bangla, spanish, romanian
+
+        case imageLink, videoLink
+
+        case isReadFromView, level, isReadFromNotification, user
+
+        case isActive, isComplete
+
+        case createdAt, updatedAt
+    }
+
+}
+
+extension WordGetObjectWithoutUser: Hashable {
+    public static func == (lhs: WordGetObjectWithoutUser, rhs: WordGetObjectWithoutUser) -> Bool {
+        return lhs.id == rhs.id && lhs.id == rhs.id
+        && lhs.from == rhs.from
+        && lhs.to == rhs.to
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(from)
+        hasher.combine(to)
+    }
+}
+
+extension WordGetObjectWithoutUser {
+    public static var empty: WordGetObjectWithoutUser = .init(
+        id: "", from: .empty , to: .empty,
+        english: .empty,
+        isReadFromNotification: false,
+        isReadFromView: false, level: .beginner
+    )
+}
+
+extension WordGetObjectWithoutUser {
+
+    var iconView: String { return self.icon ?? "" }
+    var showQuizButton: Bool { return self.isActive && !self.isComplete }
+
+    var imageURL: String {
+        return self.imageLink ?? "https://img.freepik.com/free-vector/realistic-set-whole-cut-juicy-red-green-apples-isolated-white_1284-33173.jpg"
+    }
+
+    var englishFlagString: String {
+        return self.english.definition.first?.description ?? ""
+    }
+
+    var russianFlagString: String {
+        return self.russian?.definition.first?.description ?? ""
+    }
+
+    var banglaFlagString: String {
+        return self.bangla?.definition.first?.description ?? ""
+    }
+
+    var spanishFlagString: String {
+        return self.spanish?.definition.first?.description ?? ""
+    }
+
+    var romanianFlagString: String {
+        return self.romanian?.definition.first?.description ?? ""
+    }
+
+    var englishDefDic: [String] {
+        return self.english.definition
+            .split(separator: ",")
+            .map { String($0) }
+    }
+
+    var russianDefDic: [String] {
+        return self.russian?.definition
+            .split(separator: ",")
+            .map { String($0) } ?? []
+    }
+
+    var banglaDefDic: [String] {
+        return self.bangla?.definition
+            .split(separator: ",")
+            .map { self.banglaFlagString  + String($0) } ?? []
+    }
+
+    var spanishDefDic: [String] {
+        return self.spanish?.definition
+            .split(separator: ",")
+            .map { self.spanishFlagString + String($0) } ?? []
+    }
+
+    var romanianDefDic: [String] {
+        return self.romanian?.definition
+            .split(separator: ",")
+            .map { self.romanianFlagString + String($0) } ?? []
+    }
+
+    var wordDefinations: [String] {
+        return [self.englishDefDic, russianDefDic].transposed()
+    }
+
+    public var bla: [String] {
+
+        var engflag: String? = nil
+        var engResult: [String] = []
+
+        var rusFlag: String? = nil
+        var rusResult: [String] = []
+
+        for lang in self.englishDefDic {
+            let rest = sentence(lang).rest
+            if sentence(lang).match != nil {
+                engflag = sentence(lang).match
+                engResult.append(rest)
+            } else {
+                engResult.append("\(engflag ?? "") \(rest)")
+            }
+        }
+
+
+        for lang in self.russianDefDic {
+            let rest = sentence(lang).rest
+            if sentence(lang).match != nil {
+                rusFlag = sentence(lang).match
+                rusResult.append(rest)
+            } else {
+                rusResult.append("\(rusFlag ?? "") \(rest)")
+            }
+        }
+
+        return [engResult, rusResult].transposed()
+
+    }
+
+}
+
+// MOVE Start
+func sentence(_ str: String) -> (match: String?, rest: String) {
+        let prefix = str.prefix(1)
+        guard let string = String(prefix).isEmoji else {
+            return (nil, str)
+        }
+        let rest = String(str[prefix.endIndex...])
+        return (string, rest)
+}
+
+extension Collection where Self.Element: RandomAccessCollection {
+    func transposed() -> [Self.Element.Element] {
+        guard let rowWithMaxElems = self.max(by: { $0.count < $1.count }) else { return [] }
+        return rowWithMaxElems.indices.flatMap { index in
+            self.compactMap { $0[safe: index] }
+        }
+    }
+}
+
+extension RandomAccessCollection {
+    subscript(safe index: Index) -> Element? {
+        get {
+            indices.contains(index) ? self[index] : nil
+        }
+    }
+}
+
+extension Character {
+    var foundEmoji: Character? {
+        if  let propertiy = self.unicodeScalars.first?.properties {
+            return propertiy.isEmoji == true ? self : nil
+        }
+
+        return nil
+    }
+}
+
+extension String {
+    var isEmoji: String? {
+        return self.first?.foundEmoji?.description
+    }
+}
+
+// Move END
+public struct Translation: Codable, Equatable {
+    public var word: String
+    public var definition: String
+
+    public init(
+        word: String = "",
+        definition: String = ""
+    ) {
+        self.word = word
+        self.definition = definition
+    }
+}
+
+extension Translation: Hashable {
+    public static func == (lhs: Translation, rhs: Translation) -> Bool {
+        return lhs.word == rhs.word && lhs.definition == rhs.definition
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(word)
+        hasher.combine(definition)
+    }
+}
+
+extension Translation {
+    public static var empty: Translation = .init(word: "", definition: "")
+}
+

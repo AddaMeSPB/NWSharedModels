@@ -5,10 +5,12 @@ public enum AppStoreRoute: Equatable {
     case verifyReceipt(Data)
 }
 
-public let appStoreRouter = OneOf {
-    Route(.case(AppStoreRoute.verifyReceipt)) {
-        Method.post
-        Path { "verify-receipt" }
-        Body()
+public struct AppStoreRouter: ParserPrinter {
+    public var body: some Router<AppStoreRoute> {
+        Route(.case(AppStoreRoute.verifyReceipt)) {
+            Method.post
+            Path { "verify-receipt" }
+            Body()
+        }
     }
 }

@@ -5,15 +5,19 @@ public enum UsersRoute: Equatable {
     case update(input: UserGetObject)
 }
 
-public let usersRouter = OneOf {
-    Route(.case(UsersRoute.user)) {
-        Path { Parse(.string) }
-        userRouter
-    }
+public struct UsersRouter: ParserPrinter {
+    public var body: some Router<UsersRoute> {
+        OneOf {
+            Route(.case(UsersRoute.user)) {
+                Path { Parse(.string) }
+                UserRouter()
+            }
 
-    Route(.case(UsersRoute.update)) {
-        Method.put
-        Body(.json(UserGetObject.self))
+            Route(.case(UsersRoute.update)) {
+                Method.put
+                Body(.json(UserGetObject.self))
+            }
+        }
     }
 }
 
@@ -24,21 +28,24 @@ public enum UserRoute: Equatable {
     case delete
 }
 
-public let userRouter = OneOf {
-    Route(.case(UserRoute.find))
+public struct UserRouter: ParserPrinter {
+    public var body: some Router<UserRoute> {
+        OneOf {
+            Route(.case(UserRoute.find))
 
-    Route(.case(UserRoute.deleteSoft)) {
-        Method.delete
-        Path { "soft" }
+            Route(.case(UserRoute.deleteSoft)) {
+                Method.delete
+                Path { "soft" }
+            }
+
+            Route(.case(UserRoute.restore)) {
+                Method.put
+                Path { "restore" }
+            }
+
+            Route(.case(UserRoute.delete)) {
+                Method.delete
+            }
+        }
     }
-
-    Route(.case(UserRoute.restore)) {
-        Method.put
-        Path { "restore" }
-    }
-
-    Route(.case(UserRoute.delete)) {
-        Method.delete
-    }
-
 }

@@ -27,76 +27,105 @@ public enum HomeRoute: Equatable {
     case privacy
 }
 
-// MARK:- rootRouter
+// MARK:- RootRouter
 
-public let rootRouter = OneOf {
-    Route(.case(RootRoute.api)) {
-        Path { "v1"; "api" }
-        apiRouter
-    }
-    Route(.case(RootRoute.home))
-}
+public struct RootRouter: ParserPrinter {
 
-// MARK:- apiRouter
+    public init() {}
 
-public let apiRouter = OneOf {
-    Route(.case(APIRoute.authEngine)) {
-        authEngineRoute
-    }
-
-    Route(.case(APIRoute.word)) {
-        wordsRouter
-    }
-
-    Route(.case(APIRoute.appStore)) {
-        appStoreRouter
-    }
-
-    Route(.case(APIRoute.deviceCheck)) {
-        deviceCheckRouter
+    public var body: some Router<RootRoute> {
+        OneOf {
+            Route(.case(RootRoute.api)) {
+                Path { "v1"; "api" }
+                ApiRouter()
+            }
+            Route(.case(RootRoute.home))
+        }
     }
 }
 
-// MARK:- homeRouter
+// MARK:- ApiRouter
 
-public let homeRouter = OneOf {
-    Route(.case(HomeRoute.terms)) {
-        Path { "terms" }
-    }
+public struct ApiRouter: ParserPrinter {
 
-    Route(.case(HomeRoute.privacy)) {
-        Path { "privacy" }
-    }
-}
+    public init() {}
 
-public let siteRouter = OneOf {
+    public var body: some Router<APIRoute> {
+        OneOf {
+            Route(.case(APIRoute.authEngine)) {
+                AuthEngineRouter()
+            }
 
-    Route(.case(SiteRoute.authEngine)) {
-        Path { "v1" }
-        authEngineRoute
-    }
+            Route(.case(APIRoute.word)) {
+                WordsRouter()
+            }
 
-    Route(.case(SiteRoute.word)) {
-        Path { "v1" }
-        wordsRouter
-    }
+            Route(.case(APIRoute.appStore)) {
+                AppStoreRouter()
+            }
 
-    Route(.case(SiteRoute.terms)) {
-        Path { "terms" }
-    }
-
-    Route(.case(SiteRoute.privacy)) {
-        Path { "privacy" }
-    }
-
-    Route(.case(SiteRoute.appStore)) {
-        Path { "v1" }
-        appStoreRouter
-    }
-
-    Route(.case(SiteRoute.deviceCheck)) {
-        Path { "v1" }
-        deviceCheckRouter
+            Route(.case(APIRoute.deviceCheck)) {
+                DeviceCheckRouter()
+            }
+        }
     }
 }
 
+// MARK:- HomeRouter
+
+public struct HomeRouter: ParserPrinter {
+
+    public init() {}
+
+    public var body: some Router<HomeRoute> {
+
+        OneOf {
+            Route(.case(HomeRoute.terms)) {
+                Path { "terms" }
+            }
+
+            Route(.case(HomeRoute.privacy)) {
+                Path { "privacy" }
+            }
+        }
+    }
+}
+
+// MARK:- SiteRouter
+public struct SiteRouter: ParserPrinter {
+
+    public init() {}
+
+    public var body: some Router<SiteRoute> {
+        OneOf {
+
+            Route(.case(SiteRoute.authEngine)) {
+                Path { "v1" }
+                AuthEngineRouter()
+            }
+
+            Route(.case(SiteRoute.word)) {
+                Path { "v1" }
+                WordsRouter()
+            }
+
+            Route(.case(SiteRoute.terms)) {
+                Path { "terms" }
+            }
+
+            Route(.case(SiteRoute.privacy)) {
+                Path { "privacy" }
+            }
+
+            Route(.case(SiteRoute.appStore)) {
+                Path { "v1" }
+                AppStoreRouter()
+            }
+
+            Route(.case(SiteRoute.deviceCheck)) {
+                Path { "v1" }
+                DeviceCheckRouter()
+            }
+        }
+    }
+}

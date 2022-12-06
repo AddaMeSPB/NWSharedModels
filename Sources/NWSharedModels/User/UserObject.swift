@@ -2,7 +2,7 @@
 import BSON
 
 public enum UserRole: String, Codable, CaseIterable {
-    case basic, superAdmin, englishAdmin, russianAdmin, banglaAdmin, spanishAdmin
+    case basic, superAdmin, englishAdmin, russianAdmin, banglaAdmin, spanishAdmin, romanianAdmin
 
     public var wordTitle: String {
         switch self {
@@ -13,17 +13,19 @@ public enum UserRole: String, Codable, CaseIterable {
         case .englishAdmin:
             return "English Admin"
         case .russianAdmin:
-            return "Russian Word"
+            return "Russian Admin"
         case .banglaAdmin:
-            return "Bangla Word"
+            return "Bangla Admin"
         case .spanishAdmin:
-            return "Spanish Word"
+            return "Spanish Admin"
+        case .romanianAdmin:
+            return "Romanian Admin"
         }
     }
 }
 
 public enum UserLanguage: String, Codable, CaseIterable {
-    case russian, english, bangla, spanish
+    case russian, english, bangla, spanish, romanian
 
     public var rawValue: String {
         switch self {
@@ -31,6 +33,7 @@ public enum UserLanguage: String, Codable, CaseIterable {
         case .russian: return "russian"
         case .bangla: return "bangla"
         case .spanish: return "spanish"
+        case .romanian: return "romanian"
         }
     }
 }

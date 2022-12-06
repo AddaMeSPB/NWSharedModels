@@ -16,6 +16,7 @@ public final class WordModel: Model, Content, PropertyNames {
         russian: Translation? = nil,
         bangla: Translation? = nil,
         spanish: Translation? = nil,
+        romanian: Translation? = nil,
         isReadFromNotification: Bool,
         isReadFromView: Bool,
         level: WordLevel,
@@ -31,6 +32,7 @@ public final class WordModel: Model, Content, PropertyNames {
         self.russian = russian
         self.bangla = bangla
         self.spanish = spanish
+        self.romanian = romanian
         self.isReadFromNotification = isReadFromNotification
         self.isReadFromView = isReadFromView
         self.level = level
@@ -49,6 +51,7 @@ public final class WordModel: Model, Content, PropertyNames {
     @OptionalField(key: "russian") public var russian: Translation?
     @OptionalField(key: "bangla") public var bangla: Translation?
     @OptionalField(key: "spanish") public var spanish: Translation?
+    @OptionalField(key: "romanian") public var romanian: Translation?
 
     @Field(key: "isReadFromNotification") public var isReadFromNotification: Bool
     @Field(key: "isReadFromView") public var isReadFromView: Bool
@@ -73,6 +76,7 @@ extension WordModel {
             russian: russian,
             bangla: bangla,
             spanish: spanish,
+            romanian: romanian,
 
             isReadFromNotification: isReadFromNotification,
             isReadFromView: isReadFromView,
@@ -90,6 +94,7 @@ extension WordModel {
         russian = input.russian
         bangla = input.bangla
         spanish = input.spanish
+        romanian = input.spanish
 
         isReadFromNotification = input.isReadFromNotification
         isReadFromView = input.isReadFromView
@@ -105,6 +110,7 @@ extension WordModel {
         russian = input.russian
         bangla = input.bangla
         spanish = input.spanish
+        romanian = input.romanian
 
         isReadFromNotification = input.isReadFromNotification
         isReadFromView = input.isReadFromView

@@ -7,23 +7,26 @@ public enum DeviceCheckRoute: Equatable {
     case userFraudCheck(Data)
 }
 
-public let deviceCheckRouter = OneOf {
+public struct DeviceCheckRouter: ParserPrinter {
+    public var body: some Router<DeviceCheckRoute> {
+        OneOf {
+            Route(.case(DeviceCheckRoute.updateTwoBits)) {
+                Path { "update_two_bits" }
+                Method.post
+                Body(.json(UpdateTwoBitsInput.self))
+            }
 
-    Route(.case(DeviceCheckRoute.updateTwoBits)) {
-        Path { "update_two_bits" }
-        Method.post
-        Body(.json(UpdateTwoBitsInput.self))
-    }
+            Route(.case(DeviceCheckRoute.queryTwoBits)) {
+                Path { "query_two_bits" }
+                Method.post
+                Body()
+            }
 
-    Route(.case(DeviceCheckRoute.queryTwoBits)) {
-        Path { "query_two_bits" }
-        Method.post
-        Body()
-    }
-
-    Route(.case(DeviceCheckRoute.userFraudCheck)) {
-        Path { "user_fraud_check" }
-        Method.post
-        Body()
+            Route(.case(DeviceCheckRoute.userFraudCheck)) {
+                Path { "user_fraud_check" }
+                Method.post
+                Body()
+            }
+        }
     }
 }

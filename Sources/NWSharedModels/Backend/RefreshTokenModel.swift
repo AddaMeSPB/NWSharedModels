@@ -12,7 +12,7 @@ import BSON
 import JWT
 
 public final class RefreshToken: Model {
-    public static let schema = "userRefreshTokens"
+    public static let schema = "user_refresh_tokens"
 
 	@ID(custom: "id") public var id: ObjectId?
 	@Field(key: "token") public var token: String

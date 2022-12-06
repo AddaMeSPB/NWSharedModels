@@ -13,6 +13,8 @@ extension VerifySMSOutput: Content {}
 extension VerifySmsCodeinput: Content {}
 extension SendUserVerificationResponse: Content {}
 extension UserVerificationPayload: Content {}
+extension EmailLoginInput: Content {}
+extension EmailLoginOutput: Content {}
 #endif
 
 import BSON
@@ -50,6 +52,7 @@ public struct MobileAndDeviceCheckDataInput: Codable, Equatable {
   }
 }
 
+// Mark:- OTP via mobile
 public struct VerifySmsCodeinput: Codable, Equatable {
     public init(
         phoneNumber: String,
@@ -82,6 +85,48 @@ public struct VerifySMSOutput: Codable, Equatable {
     self.attemptId = attemptId
     self.code = code
     self.isLoggedIn = isLoggedIn
+  }
+
+}
+
+// MARK:- OTP via Email
+public struct EmailLoginInput: Codable, Equatable {
+    public init(
+        email: String
+    ) {
+        self.email = email
+    }
+
+    public var email: String
+}
+
+public struct EmailLoginOutput: Codable, Equatable {
+  public var email: String
+  public var attemptId: ObjectId
+
+  public init(
+    email: String,
+    attemptId: ObjectId
+  ) {
+    self.email = email
+    self.attemptId = attemptId
+  }
+
+}
+
+public struct VerifyEmailInput: Codable, Equatable {
+  public var email: String
+  public var attemptId: ObjectId
+  public var code: String
+
+  public init(
+    email: String,
+    attemptId: ObjectId,
+    code: String
+  ) {
+    self.email = email
+    self.attemptId = attemptId
+    self.code = code
   }
 
 }
