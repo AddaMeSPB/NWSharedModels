@@ -1,19 +1,3 @@
-//
-//  UserResponse.swift
-//  
-//
-//  Created by Alif on 7/6/20.
-//
-
-#if os(macOS) || os(Linux)
-import Vapor
-
-extension RefreshTokenResponse: Content {}
-extension UserSuccessResponse: Content {}
-extension SuccessfulLoginResponse: Content {}
-
-#endif
-
 public struct UserSuccessResponse: Codable {
     let user: UserGetObject
     

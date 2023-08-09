@@ -1,22 +1,3 @@
-//
-//  VerifySMSInput.swift
-//  
-//
-//  Created by Alif on 7/6/20.
-//
-
-#if os(macOS) || os(Linux)
-import Vapor
-
-extension MobileAndDeviceCheckDataInput: Content {}
-extension VerifySMSOutput: Content {}
-extension VerifySmsCodeinput: Content {}
-extension SendUserVerificationResponse: Content {}
-extension UserVerificationPayload: Content {}
-extension EmailLoginInput: Content {}
-extension EmailLoginOutput: Content {}
-#endif
-
 import BSON
 import Foundation
 import PhoneNumberKit
@@ -92,11 +73,14 @@ public struct VerifySMSOutput: Codable, Equatable {
 // MARK:- OTP via Email
 public struct EmailLoginInput: Codable, Equatable {
     public init(
+      name: String,
         email: String
     ) {
+      self.name = name
         self.email = email
     }
 
+  public var name: String
     public var email: String
 }
 

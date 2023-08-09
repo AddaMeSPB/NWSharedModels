@@ -16,16 +16,9 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.75.0"),
-        .package(url: "https://github.com/vapor/fluent.git", from: "4.7.1"),
-        .package(url: "https://github.com/vapor/fluent-mongo-driver.git", from: "1.2.1"),
-        .package(url: "https://github.com/vapor/jwt.git", from: "4.2.2"),
 
         // Route
-        .package(url: "https://github.com/pointfreeco/vapor-routing.git", from: "0.1.3"),
-//        .package(path: "../swift-url-routing-main"),
-        .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.5.0"),
-//        .package(url: "https://github.com/saroar/swift-url-routing", branch: "main"),
+        .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.6.0"),
         .package(url: "https://github.com/OpenKitten/BSON.git", from: "7.0.31"),
         .package(url: "https://github.com/marmelroy/PhoneNumberKit", from: "3.5.8")
     ],
@@ -33,33 +26,7 @@ let package = Package(
         .target(
             name: "NWSharedModels",
             dependencies: [
-                .product(
-                    name: "Vapor",
-                    package: "vapor",
-                    condition: .when(platforms: [.macOS, .linux])
-                ),
-                .product(
-                    name: "Fluent",
-                    package: "fluent",
-                    condition: .when(platforms: [.macOS, .linux])
-                ),
-                .product(
-                    name: "FluentMongoDriver",
-                    package: "fluent-mongo-driver",
-                    condition: .when(platforms: [.macOS, .linux])
-                ),
-                .product(
-                    name: "VaporRouting",
-                    package: "vapor-routing",
-                    condition: .when(platforms: [.macOS, .linux])
-                ),
-                .product(
-                    name: "JWT",
-                    package: "jwt",
-                    condition: .when(platforms: [.macOS, .linux])
-                ),
 
-                // IOS + MacOS + Linux
                 .product(name: "PhoneNumberKit", package: "PhoneNumberKit"),
 
                 // IOS
