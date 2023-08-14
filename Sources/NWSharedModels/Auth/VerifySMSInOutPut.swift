@@ -74,10 +74,10 @@ public struct VerifySMSOutput: Codable, Equatable {
 public struct EmailLoginInput: Codable, Equatable {
     public init(
       name: String,
-        email: String
+      email: String
     ) {
       self.name = name
-        self.email = email
+      self.email = email
     }
 
   public var name: String

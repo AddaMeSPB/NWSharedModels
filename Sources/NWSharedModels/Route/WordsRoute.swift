@@ -8,7 +8,7 @@ public struct WordsRouter: ParserPrinter {
     public var body: some Router<WordsRoute> {
         OneOf {
             Route(.case(WordsRoute.list)) {
-                Path { "api"; "words" }
+                Path { "words" }
                 Parse(.memberwise(Language.init)) {
                     Query {
                         Field("from", .string, default: "")
