@@ -28,4 +28,5 @@ extension Language {
 
 extension Language {
     public static let empty: Language = .init(from: "", to: "")
+    public static let bdRu: Language = .init(from: "bd", to: "ru")
 }

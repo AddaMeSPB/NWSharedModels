@@ -9,15 +9,15 @@ public enum LanguageList: String, Codable, Equatable {
     var flag: String {
         switch self {
         case .bangla:
-            return "bd".countryFlag()
+            return "bd".countryFlag
         case .english:
-            return "us".countryFlag()
+            return "us".countryFlag
         case .russian:
-            return "ru".countryFlag()
+            return "ru".countryFlag
         case .spanish:
-            return "es".countryFlag()
+            return "es".countryFlag
         case .romanian:
-            return "ro".countryFlag()
+            return "ro".countryFlag
         }
     }
 }

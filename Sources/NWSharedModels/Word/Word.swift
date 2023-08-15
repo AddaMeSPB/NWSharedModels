@@ -21,7 +21,7 @@ public struct WordCreateObject: Codable {
     public var isReadFromNotification: Bool = false
     public var isReadFromView: Bool = false
 
-    public var isActive: Bool = false
+    public var isNotifying: Bool = false
     public var isComplete: Bool = false
 
     public var level: WordLevel = .beginner
@@ -39,7 +39,7 @@ public struct WordUpdateObject: Codable {
     public var isReadFromNotification: Bool = false
     public var isReadFromView: Bool = false
 
-    public var isActive: Bool = false
+    public var isNotifying: Bool = false
     public var isComplete: Bool = false
 
     public var level: WordLevel = .beginner
@@ -60,13 +60,10 @@ public struct WordGetObjectWithUser: Codable, Equatable, Identifiable {
     public var imageLink: String?
     public var videoLink: String?
 
-    public var isReadFromNotification: Bool
-    public var isReadFromView: Bool
-
     public var level: WordLevel
     public var user: UserGetPublicObject?
 
-    public var isActive: Bool = false
+    public var isNotifying: Bool = false
     public var isComplete: Bool = false
 
     public var createdAt: Date?
@@ -82,11 +79,9 @@ public struct WordGetObjectWithUser: Codable, Equatable, Identifiable {
         romanian: Translation? = nil,
         imageLink: String? = nil,
         videoLink: String? = nil,
-        isReadFromNotification: Bool,
-        isReadFromView: Bool,
         level: WordLevel,
         user: UserGetPublicObject? = nil,
-        isActive: Bool = false,
+        isNotifying: Bool = false,
         isComplete: Bool = false,
         createdAt: Date? = nil,
         updatedAt: Date? = nil
@@ -100,11 +95,9 @@ public struct WordGetObjectWithUser: Codable, Equatable, Identifiable {
         self.romanian = romanian
         self.imageLink = imageLink
         self.videoLink = videoLink
-        self.isReadFromNotification = isReadFromNotification
-        self.isReadFromView = isReadFromView
         self.level = level
         self.user = user
-        self.isActive = isActive
+        self.isNotifying = isNotifying
         self.isComplete = isComplete
         self.createdAt = createdAt
         self.updatedAt = updatedAt
@@ -113,15 +106,10 @@ public struct WordGetObjectWithUser: Codable, Equatable, Identifiable {
     public enum CodingKeys: String, CodingKey {
         case id = "_id"
         case icon
-
         case english, russian, bangla, spanish, romanian
-
         case imageLink, videoLink
-
-        case isReadFromView, level, isReadFromNotification, user
-
-        case isActive, isComplete
-
+        case level, user
+        case isNotifying, isComplete
         case createdAt, updatedAt
     }
 
@@ -146,9 +134,7 @@ extension WordGetObjectWithUser {
 
     public static var empty: WordGetObjectWithUser = .init(
         id: "",
-        english: .empty,
-        isReadFromNotification: false,
-        isReadFromView: false, level: .beginner
+        english: .empty, level: .beginner
     )
 
     public var englishWordTitle: String {
@@ -200,13 +186,10 @@ public struct WordResponse: Codable, Equatable, Identifiable {
     public var imageLink: String?
     public var videoLink: String?
 
-    public var isReadFromNotification: Bool
-    public var isReadFromView: Bool
-
     public var level: WordLevel
     public var user: UserGetPublicObject?
 
-    public var isActive: Bool = false
+    public var isNotifying: Bool = false
     public var isComplete: Bool = false
 
     public var createdAt: Date?
@@ -219,11 +202,9 @@ public struct WordResponse: Codable, Equatable, Identifiable {
         to: Translation,
         imageLink: String? = nil,
         videoLink: String? = nil,
-        isReadFromNotification: Bool,
-        isReadFromView: Bool,
         level: WordLevel,
         user: UserGetPublicObject? = nil,
-        isActive: Bool = false,
+        isNotifying: Bool = false,
         isComplete: Bool = false,
         createdAt: Date? = nil,
         updatedAt: Date? = nil
@@ -234,11 +215,9 @@ public struct WordResponse: Codable, Equatable, Identifiable {
         self.to = to
         self.imageLink = imageLink
         self.videoLink = videoLink
-        self.isReadFromNotification = isReadFromNotification
-        self.isReadFromView = isReadFromView
         self.level = level
         self.user = user
-        self.isActive = isActive
+        self.isNotifying = isNotifying
         self.isComplete = isComplete
         self.createdAt = createdAt
         self.updatedAt = updatedAt
@@ -249,8 +228,8 @@ public struct WordResponse: Codable, Equatable, Identifiable {
         case icon
         case from, to
         case imageLink, videoLink
-        case isReadFromView, level, isReadFromNotification, user
-        case isActive, isComplete
+        case level, user
+        case isNotifying, isComplete
         case createdAt, updatedAt
     }
 
@@ -272,16 +251,14 @@ extension WordResponse: Hashable {
 
 extension WordResponse {
     public static var empty: WordResponse = .init(
-        id: "", from: .empty , to: .empty,
-        isReadFromNotification: false,
-        isReadFromView: false, level: .beginner
+        id: "", from: .empty , to: .empty, level: .beginner
     )
 }
 
 extension WordResponse {
 
     var iconView: String { return self.icon ?? "" }
-    var showQuizButton: Bool { return self.isActive && !self.isComplete }
+    var showQuizButton: Bool { return self.isNotifying && !self.isComplete }
 
     var imageURL: String {
         return self.imageLink ?? "https://img.freepik.com/free-vector/realistic-set-whole-cut-juicy-red-green-apples-isolated-white_1284-33173.jpg"
