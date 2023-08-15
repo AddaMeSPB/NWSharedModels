@@ -189,19 +189,13 @@ extension WordGetObjectWithUser {
 }
 
 // MARK: WordGetObject WithoutUser
-public struct WordGetObjectWithoutUser: Codable, Equatable, Identifiable {
+public struct WordResponse: Codable, Equatable, Identifiable {
 
     public var id: String
     public let icon: String?
 
     public var from: Translation
     public var to: Translation
-
-    public var english: Translation
-    public var russian: Translation?
-    public var bangla: Translation?
-    public var spanish: Translation?
-    public var romanian: Translation?
 
     public var imageLink: String?
     public var videoLink: String?
@@ -223,11 +217,6 @@ public struct WordGetObjectWithoutUser: Codable, Equatable, Identifiable {
         icon: String? = nil,
         from: Translation,
         to: Translation,
-        english: Translation,
-        russian: Translation? = nil,
-        bangla: Translation? = nil,
-        spanish: Translation? = nil,
-        romanian: Translation? = nil,
         imageLink: String? = nil,
         videoLink: String? = nil,
         isReadFromNotification: Bool,
@@ -243,11 +232,6 @@ public struct WordGetObjectWithoutUser: Codable, Equatable, Identifiable {
         self.icon = icon
         self.from = from
         self.to = to
-        self.english = english
-        self.russian = russian
-        self.bangla = bangla
-        self.spanish = spanish
-        self.romanian = romanian
         self.imageLink = imageLink
         self.videoLink = videoLink
         self.isReadFromNotification = isReadFromNotification
@@ -263,23 +247,17 @@ public struct WordGetObjectWithoutUser: Codable, Equatable, Identifiable {
     public enum CodingKeys: String, CodingKey {
         case id = "_id"
         case icon
-
         case from, to
-        case english, russian, bangla, spanish, romanian
-
         case imageLink, videoLink
-
         case isReadFromView, level, isReadFromNotification, user
-
         case isActive, isComplete
-
         case createdAt, updatedAt
     }
 
 }
 
-extension WordGetObjectWithoutUser: Hashable {
-    public static func == (lhs: WordGetObjectWithoutUser, rhs: WordGetObjectWithoutUser) -> Bool {
+extension WordResponse: Hashable {
+    public static func == (lhs: WordResponse, rhs: WordResponse) -> Bool {
         return lhs.id == rhs.id && lhs.id == rhs.id
         && lhs.from == rhs.from
         && lhs.to == rhs.to
@@ -292,16 +270,15 @@ extension WordGetObjectWithoutUser: Hashable {
     }
 }
 
-extension WordGetObjectWithoutUser {
-    public static var empty: WordGetObjectWithoutUser = .init(
+extension WordResponse {
+    public static var empty: WordResponse = .init(
         id: "", from: .empty , to: .empty,
-        english: .empty,
         isReadFromNotification: false,
         isReadFromView: false, level: .beginner
     )
 }
 
-extension WordGetObjectWithoutUser {
+extension WordResponse {
 
     var iconView: String { return self.icon ?? "" }
     var showQuizButton: Bool { return self.isActive && !self.isComplete }
@@ -310,92 +287,92 @@ extension WordGetObjectWithoutUser {
         return self.imageLink ?? "https://img.freepik.com/free-vector/realistic-set-whole-cut-juicy-red-green-apples-isolated-white_1284-33173.jpg"
     }
 
-    var englishFlagString: String {
-        return self.english.definition.first?.description ?? ""
-    }
+//    var englishFlagString: String {
+//        return self.english.definition.first?.description ?? ""
+//    }
+//
+//    var russianFlagString: String {
+//        return self.russian?.definition.first?.description ?? ""
+//    }
+//
+//    var banglaFlagString: String {
+//        return self.bangla?.definition.first?.description ?? ""
+//    }
+//
+//    var spanishFlagString: String {
+//        return self.spanish?.definition.first?.description ?? ""
+//    }
+//
+//    var romanianFlagString: String {
+//        return self.romanian?.definition.first?.description ?? ""
+//    }
+//
+//    var englishDefDic: [String] {
+//        return self.english.definition
+//            .split(separator: ",")
+//            .map { String($0) }
+//    }
+//
+//    var russianDefDic: [String] {
+//        return self.russian?.definition
+//            .split(separator: ",")
+//            .map { String($0) } ?? []
+//    }
+//
+//    var banglaDefDic: [String] {
+//        return self.bangla?.definition
+//            .split(separator: ",")
+//            .map { self.banglaFlagString  + String($0) } ?? []
+//    }
+//
+//    var spanishDefDic: [String] {
+//        return self.spanish?.definition
+//            .split(separator: ",")
+//            .map { self.spanishFlagString + String($0) } ?? []
+//    }
+//
+//    var romanianDefDic: [String] {
+//        return self.romanian?.definition
+//            .split(separator: ",")
+//            .map { self.romanianFlagString + String($0) } ?? []
+//    }
 
-    var russianFlagString: String {
-        return self.russian?.definition.first?.description ?? ""
-    }
+//    var wordDefinations: [String] {
+//        return [self.englishDefDic, russianDefDic].transposed()
+//    }
 
-    var banglaFlagString: String {
-        return self.bangla?.definition.first?.description ?? ""
-    }
-
-    var spanishFlagString: String {
-        return self.spanish?.definition.first?.description ?? ""
-    }
-
-    var romanianFlagString: String {
-        return self.romanian?.definition.first?.description ?? ""
-    }
-
-    var englishDefDic: [String] {
-        return self.english.definition
-            .split(separator: ",")
-            .map { String($0) }
-    }
-
-    var russianDefDic: [String] {
-        return self.russian?.definition
-            .split(separator: ",")
-            .map { String($0) } ?? []
-    }
-
-    var banglaDefDic: [String] {
-        return self.bangla?.definition
-            .split(separator: ",")
-            .map { self.banglaFlagString  + String($0) } ?? []
-    }
-
-    var spanishDefDic: [String] {
-        return self.spanish?.definition
-            .split(separator: ",")
-            .map { self.spanishFlagString + String($0) } ?? []
-    }
-
-    var romanianDefDic: [String] {
-        return self.romanian?.definition
-            .split(separator: ",")
-            .map { self.romanianFlagString + String($0) } ?? []
-    }
-
-    var wordDefinations: [String] {
-        return [self.englishDefDic, russianDefDic].transposed()
-    }
-
-    public var bla: [String] {
-
-        var engflag: String? = nil
-        var engResult: [String] = []
-
-        var rusFlag: String? = nil
-        var rusResult: [String] = []
-
-        for lang in self.englishDefDic {
-            let rest = sentence(lang).rest
-            if sentence(lang).match != nil {
-                engflag = sentence(lang).match
-                engResult.append(rest)
-            } else {
-                engResult.append("\(engflag ?? "") \(rest)")
-            }
-        }
-
-
-        for lang in self.russianDefDic {
-            let rest = sentence(lang).rest
-            if sentence(lang).match != nil {
-                rusFlag = sentence(lang).match
-                rusResult.append(rest)
-            } else {
-                rusResult.append("\(rusFlag ?? "") \(rest)")
-            }
-        }
-
-        return [engResult, rusResult].transposed()
-
-    }
+//    public var bla: [String] {
+//
+//        var engflag: String? = nil
+//        var engResult: [String] = []
+//
+//        var rusFlag: String? = nil
+//        var rusResult: [String] = []
+//
+//        for lang in self.englishDefDic {
+//            let rest = sentence(lang).rest
+//            if sentence(lang).match != nil {
+//                engflag = sentence(lang).match
+//                engResult.append(rest)
+//            } else {
+//                engResult.append("\(engflag ?? "") \(rest)")
+//            }
+//        }
+//
+//
+//        for lang in self.russianDefDic {
+//            let rest = sentence(lang).rest
+//            if sentence(lang).match != nil {
+//                rusFlag = sentence(lang).match
+//                rusResult.append(rest)
+//            } else {
+//                rusResult.append("\(rusFlag ?? "") \(rest)")
+//            }
+//        }
+//
+//        return [engResult, rusResult].transposed()
+//
+//    }
 
 }
 
