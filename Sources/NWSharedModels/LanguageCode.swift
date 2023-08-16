@@ -15,7 +15,7 @@ public struct LanguageCode: Codable, Hashable, Equatable {
 
 extension LanguageCode: CustomStringConvertible {
     public var description: String {
-        return "\(code.countryFlag) ⇡ \(nativeName.capitalized)"
+        return "\((code.countryFlag) as String) ⇡ \(nativeName.capitalized)"
     }
 }
 

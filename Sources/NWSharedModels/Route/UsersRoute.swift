@@ -3,6 +3,7 @@ import URLRouting
 public enum UsersRoute: Equatable {
     case user(id: String, route: UserRoute)
     case update(input: UserGetObject)
+    case userWord(UserWordRoute)
 }
 
 public struct UsersRouter: ParserPrinter {
@@ -17,6 +18,11 @@ public struct UsersRouter: ParserPrinter {
                 Method.put
                 Body(.json(UserGetObject.self))
             }
+
+          Route(.case(UsersRoute.userWord)) {
+              Path { "user_words" }
+              UserWordRouter()
+          }
         }
     }
 }

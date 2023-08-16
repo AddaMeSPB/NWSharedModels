@@ -17,13 +17,6 @@ public struct WordCreateObject: Codable {
     public var bangla: Translation?
     public var spanish: Translation?
     public var romanian: Translation?
-
-    public var isReadFromNotification: Bool = false
-    public var isReadFromView: Bool = false
-
-    public var isNotifying: Bool = false
-    public var isComplete: Bool = false
-
     public var level: WordLevel = .beginner
 }
 
@@ -35,12 +28,6 @@ public struct WordUpdateObject: Codable {
     public var bangla: Translation?
     public var spanish: Translation?
     public var romanian: Translation?
-
-    public var isReadFromNotification: Bool = false
-    public var isReadFromView: Bool = false
-
-    public var isNotifying: Bool = false
-    public var isComplete: Bool = false
 
     public var level: WordLevel = .beginner
 }
@@ -174,185 +161,6 @@ extension WordGetObjectWithUser {
 
 }
 
-// MARK: WordGetObject WithoutUser
-public struct WordResponse: Codable, Equatable, Identifiable {
-
-    public var id: String
-    public let icon: String?
-
-    public var from: Translation
-    public var to: Translation
-
-    public var imageLink: String?
-    public var videoLink: String?
-
-    public var level: WordLevel
-    public var user: UserGetPublicObject?
-
-    public var isNotifying: Bool = false
-    public var isComplete: Bool = false
-
-    public var createdAt: Date?
-    public var updatedAt: Date?
-
-    public init(
-        id: String,
-        icon: String? = nil,
-        from: Translation,
-        to: Translation,
-        imageLink: String? = nil,
-        videoLink: String? = nil,
-        level: WordLevel,
-        user: UserGetPublicObject? = nil,
-        isNotifying: Bool = false,
-        isComplete: Bool = false,
-        createdAt: Date? = nil,
-        updatedAt: Date? = nil
-    ) {
-        self.id = id
-        self.icon = icon
-        self.from = from
-        self.to = to
-        self.imageLink = imageLink
-        self.videoLink = videoLink
-        self.level = level
-        self.user = user
-        self.isNotifying = isNotifying
-        self.isComplete = isComplete
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-    }
-
-    public enum CodingKeys: String, CodingKey {
-        case id = "_id"
-        case icon
-        case from, to
-        case imageLink, videoLink
-        case level, user
-        case isNotifying, isComplete
-        case createdAt, updatedAt
-    }
-
-}
-
-extension WordResponse: Hashable {
-    public static func == (lhs: WordResponse, rhs: WordResponse) -> Bool {
-        return lhs.id == rhs.id && lhs.id == rhs.id
-        && lhs.from == rhs.from
-        && lhs.to == rhs.to
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-        hasher.combine(from)
-        hasher.combine(to)
-    }
-}
-
-extension WordResponse {
-    public static var empty: WordResponse = .init(
-        id: "", from: .empty , to: .empty, level: .beginner
-    )
-}
-
-extension WordResponse {
-
-    var iconView: String { return self.icon ?? "" }
-    var showQuizButton: Bool { return self.isNotifying && !self.isComplete }
-
-    var imageURL: String {
-        return self.imageLink ?? "https://img.freepik.com/free-vector/realistic-set-whole-cut-juicy-red-green-apples-isolated-white_1284-33173.jpg"
-    }
-
-//    var englishFlagString: String {
-//        return self.english.definition.first?.description ?? ""
-//    }
-//
-//    var russianFlagString: String {
-//        return self.russian?.definition.first?.description ?? ""
-//    }
-//
-//    var banglaFlagString: String {
-//        return self.bangla?.definition.first?.description ?? ""
-//    }
-//
-//    var spanishFlagString: String {
-//        return self.spanish?.definition.first?.description ?? ""
-//    }
-//
-//    var romanianFlagString: String {
-//        return self.romanian?.definition.first?.description ?? ""
-//    }
-//
-//    var englishDefDic: [String] {
-//        return self.english.definition
-//            .split(separator: ",")
-//            .map { String($0) }
-//    }
-//
-//    var russianDefDic: [String] {
-//        return self.russian?.definition
-//            .split(separator: ",")
-//            .map { String($0) } ?? []
-//    }
-//
-//    var banglaDefDic: [String] {
-//        return self.bangla?.definition
-//            .split(separator: ",")
-//            .map { self.banglaFlagString  + String($0) } ?? []
-//    }
-//
-//    var spanishDefDic: [String] {
-//        return self.spanish?.definition
-//            .split(separator: ",")
-//            .map { self.spanishFlagString + String($0) } ?? []
-//    }
-//
-//    var romanianDefDic: [String] {
-//        return self.romanian?.definition
-//            .split(separator: ",")
-//            .map { self.romanianFlagString + String($0) } ?? []
-//    }
-
-//    var wordDefinations: [String] {
-//        return [self.englishDefDic, russianDefDic].transposed()
-//    }
-
-//    public var bla: [String] {
-//
-//        var engflag: String? = nil
-//        var engResult: [String] = []
-//
-//        var rusFlag: String? = nil
-//        var rusResult: [String] = []
-//
-//        for lang in self.englishDefDic {
-//            let rest = sentence(lang).rest
-//            if sentence(lang).match != nil {
-//                engflag = sentence(lang).match
-//                engResult.append(rest)
-//            } else {
-//                engResult.append("\(engflag ?? "") \(rest)")
-//            }
-//        }
-//
-//
-//        for lang in self.russianDefDic {
-//            let rest = sentence(lang).rest
-//            if sentence(lang).match != nil {
-//                rusFlag = sentence(lang).match
-//                rusResult.append(rest)
-//            } else {
-//                rusResult.append("\(rusFlag ?? "") \(rest)")
-//            }
-//        }
-//
-//        return [engResult, rusResult].transposed()
-//
-//    }
-
-}
-
 // MOVE Start
 func sentence(_ str: String) -> (match: String?, rest: String) {
         let prefix = str.prefix(1)
@@ -424,4 +232,3 @@ extension Translation: Hashable {
 extension Translation {
     public static var empty: Translation = .init(word: "", definition: "")
 }
-
